@@ -1,0 +1,9 @@
+services:
+  - type: static
+    name: Happy-Scholar-1
+    buildCommand: npm run build
+    publishDir: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
