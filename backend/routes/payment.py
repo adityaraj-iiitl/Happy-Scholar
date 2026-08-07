@@ -27,8 +27,7 @@ def get_razorpay_creds():
 def get_authenticated_user():
     """
     Securely authenticates the user context:
-    1. Extracts and verifies Firebase token if present.
-    2. Falls back to verifying the HMAC signature of X-User-Id to prevent tampering.
+    Extracts and verifies Firebase ID token from the Authorization Bearer header.
     """
     from utils.firebase import firebase_initialized
     
@@ -37,13 +36,9 @@ def get_authenticated_user():
     log_diagnostic("Payment Auth Verification Start:")
     
     auth_header = request.headers.get('Authorization')
-    user_id = request.headers.get('X-User-Id')
-    signature = request.headers.get('X-User-Signature')
     
     log_diagnostic(f"  Authorization Header Present: {'YES' if auth_header else 'NO'}")
     log_diagnostic(f"  Firebase Admin SDK Initialized: {'YES' if firebase_initialized else 'NO'}")
-    log_diagnostic(f"  X-User-Id Header: {user_id}")
-    log_diagnostic(f"  X-User-Signature Header Present: {'YES' if signature else 'NO'}")
 
     # 1. Firebase Token Validation
     if auth_header and auth_header.startswith('Bearer '):
@@ -64,23 +59,8 @@ def get_authenticated_user():
                         return user
             except Exception as e:
                 log_diagnostic(f"  Token Verification Exception: {str(e)}")
-    
-    # 2. Signed X-User-Id Validation
-    if user_id and signature:
-        secret = os.getenv('SECRET_KEY', 'studentsync_secret_key_123')
-        msg = str(user_id).encode('utf-8')
-        expected = hmac.new(secret.encode('utf-8'), msg, hashlib.sha256).hexdigest()
-        is_signature_valid = hmac.compare_digest(expected, signature)
-        log_diagnostic(f"  HMAC Signature valid: {'YES' if is_signature_valid else 'NO'}")
-        
-        if is_signature_valid:
-            user = User.query.get(user_id)
-            log_diagnostic(f"  SQLite User found by signed ID: {'YES' if user else 'NO'}")
-            if user:
-                log_diagnostic("Payment Auth: HMAC Verification SUCCESS")
-                return user
-        else:
-            log_diagnostic(f"  HMAC mismatch. Expected: {expected}, Given: {signature}")
+    else:
+        log_diagnostic("  Bearer Token Present: NO")
             
     log_diagnostic("Payment Auth Verification End: Authentication FAILED")
     return None

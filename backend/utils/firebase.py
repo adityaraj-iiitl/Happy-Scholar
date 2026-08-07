@@ -10,18 +10,37 @@ SERVICE_ACCOUNT_PATH = os.getenv('FIREBASE_SERVICE_ACCOUNT') or os.path.join(BAS
 # Initialize Firebase Admin SDK
 firebase_initialized = False
 
+# Try environment variables first (ideal for Render deployment)
+project_id = os.getenv('FIREBASE_PROJECT_ID')
+client_email = os.getenv('FIREBASE_CLIENT_EMAIL')
+private_key_raw = os.getenv('FIREBASE_PRIVATE_KEY')
+
 try:
     if not firebase_admin._apps:
-        if os.path.exists(SERVICE_ACCOUNT_PATH):
-            print(f"Firebase: Initializing with service account key from {SERVICE_ACCOUNT_PATH}")
-            cred = credentials.Certificate(SERVICE_ACCOUNT_PATH)
+        if project_id and client_email and private_key_raw:
+            private_key = private_key_raw.replace('\\n', '\n')
+            print(f"Firebase: Initializing Admin SDK using environment variables for project: {project_id}")
+            cred = credentials.Certificate({
+                "type": "service_account",
+                "project_id": project_id,
+                "client_email": client_email,
+                "private_key": private_key,
+                "token_uri": "https://oauth2.googleapis.com/token"
+            })
             firebase_admin.initialize_app(cred)
             firebase_initialized = True
         else:
-            # Fallback to Application Default Credentials or default initialization
-            print("Firebase: Service account file not found. Trying default initialization...")
-            firebase_admin.initialize_app()
-            firebase_initialized = True
+            # Fallback to service account key file
+            if os.path.exists(SERVICE_ACCOUNT_PATH):
+                print(f"Firebase: Initializing with service account key from {SERVICE_ACCOUNT_PATH}")
+                cred = credentials.Certificate(SERVICE_ACCOUNT_PATH)
+                firebase_admin.initialize_app(cred)
+                firebase_initialized = True
+            else:
+                # Default initialization fallback
+                print("Firebase: Service account credentials not found. Signature verification may run in fallback/local mode.")
+                firebase_admin.initialize_app()
+                firebase_initialized = True
 except Exception as e:
     print(f"Firebase Initialization Warning: {str(e)}")
     print("Firebase Admin SDK running in fallback mode. Token signature verification may be bypassed in local dev.")
