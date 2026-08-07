@@ -3,9 +3,10 @@ import hmac
 import hashlib
 import time
 import requests
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from models import User
 from database.db import db
+from utils.firebase import verify_firebase_token
 
 payment_bp = Blueprint('payment', __name__)
 
@@ -16,6 +17,43 @@ def get_razorpay_creds():
     key_secret = os.getenv('RAZORPAY_KEY_SECRET')
     return key_id, key_secret
 
+def get_authenticated_user():
+    """
+    Securely authenticates the user context:
+    1. Extracts and verifies Firebase token if present.
+    2. Falls back to verifying the HMAC signature of X-User-Id to prevent tampering.
+    """
+    # 1. Firebase Token Validation
+    auth_header = request.headers.get('Authorization')
+    if auth_header and auth_header.startswith('Bearer '):
+        firebase_token = auth_header.split('Bearer ')[1]
+        try:
+            decoded = verify_firebase_token(firebase_token)
+            firebase_uid = decoded.get('uid')
+            if firebase_uid:
+                user = User.query.filter_by(firebase_uid=firebase_uid).first()
+                if user:
+                    return user
+        except Exception as e:
+            current_app.logger.error(f"Payment Auth: Firebase ID token verification failed: {str(e)}")
+
+    # 2. Signed X-User-Id Validation
+    user_id = request.headers.get('X-User-Id')
+    signature = request.headers.get('X-User-Signature')
+    
+    if user_id and signature:
+        secret = os.getenv('SECRET_KEY', 'studentsync_secret_key_123')
+        msg = str(user_id).encode('utf-8')
+        expected = hmac.new(secret.encode('utf-8'), msg, hashlib.sha256).hexdigest()
+        if hmac.compare_digest(expected, signature):
+            user = User.query.get(user_id)
+            if user:
+                return user
+        else:
+            current_app.logger.warning(f"Payment Auth: Tampering detected for user ID {user_id}. Signature mismatch.")
+            
+    return None
+
 @payment_bp.route('/price', methods=['GET'])
 def get_price():
     return jsonify({
@@ -25,55 +63,45 @@ def get_price():
 
 @payment_bp.route('/create-order', methods=['POST'])
 def create_order():
-    user_id = request.headers.get('X-User-Id')
-    if not user_id:
-        return jsonify({"error": "Unauthorized"}), 401
-    
-    user = User.query.get(user_id)
+    user = get_authenticated_user()
     if not user:
-        return jsonify({"error": "User not found"}), 404
-        
-    key_id, key_secret = get_razorpay_creds()
+        return jsonify({"error": "Unauthorized: Secure identification failed"}), 401
     
+    key_id, key_secret = get_razorpay_creds()
+    if not key_id or not key_secret:
+        current_app.logger.error("Razorpay Error: Key ID or Key Secret is missing from environment variables.")
+        return jsonify({"error": "Razorpay payment credentials are not configured on the server."}), 500
+        
     # Price is 99 INR -> 9900 paise
     amount_paise = PREMIUM_PRICE_INR * 100
-    
-    payload = {
-        "amount": amount_paise,
-        "currency": "INR",
-        "receipt": f"receipt_user_{user_id}_{int(time.time())}",
-        "payment_capture": 1
-    }
+    receipt_id = f"receipt_user_{user.id}_{int(time.time())}"
     
     try:
-        response = requests.post(
-            "https://api.razorpay.com/v1/orders",
-            auth=(key_id, key_secret),
-            json=payload,
-            timeout=15
-        )
-        if response.status_code != 200:
-            print(f"Razorpay Order Error: {response.text}")
-            return jsonify({"error": "Failed to create order with Razorpay"}), 500
-            
-        order_data = response.json()
+        import razorpay
+        client = razorpay.Client(auth=(key_id, key_secret))
+        
+        order_data = client.order.create({
+            "amount": amount_paise,
+            "currency": "INR",
+            "receipt": receipt_id,
+            "payment_capture": 1
+        })
+        
         return jsonify({
             "order_id": order_data.get("id"),
             "amount": amount_paise,
             "key_id": key_id
         }), 200
     except Exception as e:
-        return jsonify({"error": f"Error creating payment order: {str(e)}"}), 500
+        err_msg = str(e)
+        current_app.logger.error(f"Razorpay SDK Exception during order creation: {err_msg}")
+        return jsonify({"error": f"Failed to create order with Razorpay: {err_msg}"}), 500
 
 @payment_bp.route('/verify-payment', methods=['POST'])
 def verify_payment():
-    user_id = request.headers.get('X-User-Id')
-    if not user_id:
-        return jsonify({"error": "Unauthorized"}), 401
-        
-    user = User.query.get(user_id)
+    user = get_authenticated_user()
     if not user:
-        return jsonify({"error": "User not found"}), 404
+        return jsonify({"error": "Unauthorized: Secure identification failed"}), 401
         
     data = request.get_json() or {}
     order_id = data.get('razorpay_order_id')
@@ -84,26 +112,78 @@ def verify_payment():
         return jsonify({"error": "Missing payment verification parameters"}), 400
         
     key_id, key_secret = get_razorpay_creds()
-    
-    try:
-        msg = f"{order_id}|{payment_id}".encode('utf-8')
-        generated_signature = hmac.new(
-            key_secret.encode('utf-8'),
-            msg,
-            hashlib.sha256
-        ).hexdigest()
+    if not key_id or not key_secret:
+        current_app.logger.error("Razorpay Error: Key ID or Key Secret is missing from environment variables.")
+        return jsonify({"error": "Razorpay payment credentials are not configured on the server."}), 500
         
-        if hmac.compare_digest(generated_signature, signature):
-            # Activate premium
-            user.plan = 'premium'
-            db.session.commit()
-            return jsonify({
-                "success": True,
-                "message": "Payment verified and Premium activated successfully!",
-                "user": user.to_dict()
-            }), 200
-        else:
-            return jsonify({"error": "Invalid signature. Verification failed."}), 400
+    try:
+        import razorpay
+        client = razorpay.Client(auth=(key_id, key_secret))
+        
+        # Verify using SDK client utility (raises SignatureVerificationError if invalid)
+        client.utility.verify_payment_signature({
+            'razorpay_order_id': order_id,
+            'razorpay_payment_id': payment_id,
+            'razorpay_signature': signature
+        })
+        
+        # Activate premium
+        user.plan = 'premium'
+        db.session.commit()
+        return jsonify({
+            "success": True,
+            "message": "Payment verified and Premium activated successfully!",
+            "user": user.to_dict()
+        }), 200
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": f"Verification error: {str(e)}"}), 500
+        current_app.logger.error(f"Razorpay Verification SDK Exception: {str(e)}")
+        return jsonify({"error": f"Invalid signature. Verification failed: {str(e)}"}), 400
+
+@payment_bp.route('/diagnose', methods=['GET'])
+def diagnose_payment():
+    key_id, key_secret = get_razorpay_creds()
+    
+    masked_key = "Missing"
+    if key_id:
+        if len(key_id) > 10:
+            masked_key = f"{key_id[:8]}...{key_id[-4:]}"
+        else:
+            masked_key = "Configured (too short)"
+            
+    has_secret = "YES" if key_secret else "NO"
+    is_test = "YES" if (key_id and key_id.startswith("rzp_test_")) else "NO"
+    is_live = "YES" if (key_id and key_id.startswith("rzp_live_")) else "NO"
+    
+    diagnostic_info = {
+        "Razorpay configuration loaded": "YES" if (key_id and key_secret) else "NO",
+        "Key ID configured": "YES" if key_id else "NO",
+        "Key ID value (masked)": masked_key,
+        "Key Secret configured": has_secret,
+        "Mode appears to be TEST": is_test,
+        "Mode appears to be LIVE": is_live,
+        "Amount (paise)": 9900,
+        "Currency": "INR"
+    }
+    
+    if not key_id or not key_secret:
+        diagnostic_info["Order creation"] = "FAILED: Credentials missing"
+        return jsonify(diagnostic_info), 200
+        
+    try:
+        import razorpay
+        client = razorpay.Client(auth=(key_id, key_secret))
+        order = client.order.create({
+            "amount": 9900,
+            "currency": "INR",
+            "receipt": f"diagnose_receipt_{int(time.time())}"
+        })
+        diagnostic_info["Order creation"] = "SUCCESS"
+        diagnostic_info["Sample Order ID"] = order.get("id")
+    except Exception as e:
+        diagnostic_info["Order creation"] = "FAILED"
+        diagnostic_info["Razorpay error"] = str(e)
+        current_app.logger.error(f"Razorpay Diagnosis Failed: {str(e)}")
+        
+    return jsonify(diagnostic_info), 200
+

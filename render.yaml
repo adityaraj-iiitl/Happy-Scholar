@@ -7,3 +7,25 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
+
+  - type: web
+    name: Happy-Scholar-Backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    disk:
+      name: sqlite-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: SQLITE_DB_PATH
+        value: /data/studentsync.db
+      - key: SECRET_KEY
+        generateValue: true
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: VITE_GEMINI_API_KEY
+        sync: false

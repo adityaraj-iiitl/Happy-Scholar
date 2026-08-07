@@ -72,8 +72,18 @@ function Profile() {
         return;
       }
 
+      // Get Firebase ID Token if currentUser is logged in via Firebase
+      let firebaseToken = null;
+      if (auth.currentUser) {
+        try {
+          firebaseToken = await auth.currentUser.getIdToken(true);
+        } catch (tokenErr) {
+          console.error("Failed to get Firebase token:", tokenErr);
+        }
+      }
+
       // Create order
-      const order = await api.createPaymentOrder();
+      const order = await api.createPaymentOrder(firebaseToken);
       
       const options = {
         key: order.key_id,
@@ -88,7 +98,7 @@ function Profile() {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
-            });
+            }, firebaseToken);
 
             if (verification.success && verification.user) {
               localStorage.setItem('user', JSON.stringify(verification.user));

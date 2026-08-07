@@ -40,6 +40,13 @@ class User(db.Model):
     notifications = db.relationship('Notification', backref='user', lazy=True, cascade="all, delete-orphan")
 
     def to_dict(self):
+        import hmac
+        import hashlib
+        import os
+        secret = os.getenv('SECRET_KEY', 'studentsync_secret_key_123')
+        msg = str(self.id).encode('utf-8')
+        signature = hmac.new(secret.encode('utf-8'), msg, hashlib.sha256).hexdigest()
+        
         return {
             "id": self.id,
             "name": self.name,
@@ -54,7 +61,8 @@ class User(db.Model):
             "created_at": self.created_at,
             "plan": self.plan,
             "camera_solver_daily_count": self.camera_solver_daily_count,
-            "camera_solver_last_used_date": self.camera_solver_last_used_date
+            "camera_solver_last_used_date": self.camera_solver_last_used_date,
+            "auth_signature": signature
         }
 
 

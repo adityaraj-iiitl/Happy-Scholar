@@ -11,6 +11,9 @@ const getHeaders = () => {
       const user = JSON.parse(userString);
       if (user && user.id) {
         headers['X-User-Id'] = String(user.id);
+        if (user.auth_signature) {
+          headers['X-User-Signature'] = user.auth_signature;
+        }
       }
     } catch (e) {
       console.error("Error reading user token", e);
@@ -331,16 +334,24 @@ export const api = {
     return request('/payment/price');
   },
 
-  createPaymentOrder: async () => {
-    return request('/payment/create-order', {
+  createPaymentOrder: async (firebaseToken = null) => {
+    const options = {
       method: 'POST',
-    });
+    };
+    if (firebaseToken) {
+      options.headers = { 'Authorization': `Bearer ${firebaseToken}` };
+    }
+    return request('/payment/create-order', options);
   },
 
-  verifyPayment: async (payload) => {
-    return request('/payment/verify-payment', {
+  verifyPayment: async (payload, firebaseToken = null) => {
+    const options = {
       method: 'POST',
       body: JSON.stringify(payload),
-    });
+    };
+    if (firebaseToken) {
+      options.headers = { 'Authorization': `Bearer ${firebaseToken}` };
+    }
+    return request('/payment/verify-payment', options);
   },
 };

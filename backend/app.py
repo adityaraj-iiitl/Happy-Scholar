@@ -1,8 +1,12 @@
 import os
 from flask import Flask, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
 from database.db import db
 from database.patcher import patch_database
+
+# Load environment variables
+load_dotenv()
 
 # Import existing blueprints
 from routes.auth import auth_bp
@@ -30,12 +34,31 @@ CORS(app)
 app.secret_key = os.getenv('SECRET_KEY', 'studentsync_secret_key_123')
 
 # Database configuration
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'studentsync.db')}"
+db_path = os.getenv('SQLITE_DB_PATH')
+if db_path:
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
+else:
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'studentsync.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize DB
 db.init_app(app)
+
+# Configure SQLite pragmas for concurrency
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
+
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    try:
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA journal_mode=WAL")
+        cursor.execute("PRAGMA synchronous=NORMAL")
+        cursor.execute("PRAGMA busy_timeout=5000")
+        cursor.close()
+    except Exception:
+        pass
 
 # Run database schema migrations/patches
 patch_database(app)
