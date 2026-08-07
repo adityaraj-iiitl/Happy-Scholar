@@ -33,13 +33,50 @@ CORS(app)
 # Session configurations
 app.secret_key = os.getenv('SECRET_KEY', 'studentsync_secret_key_123')
 
-# Database configuration
+# Database configuration & Verification
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 db_path = os.getenv('SQLITE_DB_PATH')
+
+# Default path if no path is configured or if the configured path fails verification
+fallback_path = os.path.join(BASE_DIR, 'studentsync.db')
+selected_db_path = fallback_path
+
+print("Database Path Verification:")
+
 if db_path:
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
+    db_dir = os.path.dirname(db_path)
+    print(f"  Configured SQLITE_DB_PATH: {db_path}")
+    print(f"  Target parent directory: {db_dir}")
+    
+    # 1. Ensure parent directory exists
+    dir_ok = False
+    if db_dir:
+        if not os.path.exists(db_dir):
+            try:
+                os.makedirs(db_dir, exist_ok=True)
+                print("  Target parent directory created successfully.")
+                dir_ok = True
+            except Exception as e:
+                print(f"  Warning: Target parent directory creation failed: {str(e)}")
+        else:
+            dir_ok = True
+            
+    # 2. Verify write permissions on the directory
+    if dir_ok and db_dir:
+        try:
+            test_file = os.path.join(db_dir, '.db_write_test')
+            with open(test_file, 'w') as f:
+                f.write('check')
+            os.remove(test_file)
+            print("  Writability check: SUCCESS. Using configured path.")
+            selected_db_path = db_path
+        except Exception as e:
+            print(f"  Warning: Target parent directory is NOT writable: {str(e)}")
+            print(f"  Falling back to project-level DB: {fallback_path}")
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'studentsync.db')}"
+    print(f"  No SQLITE_DB_PATH env variable set. Using default project-level DB: {fallback_path}")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{selected_db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize DB
@@ -60,45 +97,11 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     except Exception:
         pass
 
-# Verify and prepare database directory
-db_uri = app.config.get('SQLALCHEMY_DATABASE_URI', '')
-if db_uri.startswith('sqlite:///'):
-    resolved_db_path = db_uri.replace('sqlite:///', '')
-    if not os.path.isabs(resolved_db_path):
-        resolved_db_path = os.path.join(BASE_DIR, resolved_db_path)
-    
-    db_dir = os.path.dirname(resolved_db_path)
-    
-    print("Database Path Diagnostics:")
-    print(f"  Database URI: {db_uri}")
-    print(f"  Resolved path: {resolved_db_path}")
-    print(f"  Directory path: {db_dir}")
-    
-    if db_dir:
-        dir_exists = os.path.exists(db_dir)
-        print(f"  Directory exists: {'YES' if dir_exists else 'NO'}")
-        if not dir_exists:
-            try:
-                os.makedirs(db_dir, exist_ok=True)
-                print("  Directory created: YES")
-            except Exception as e:
-                print(f"  Directory creation failed: {str(e)}")
-        
-        # Test parent folder writability
-        try:
-            test_file = os.path.join(db_dir, '.db_write_test')
-            with open(test_file, 'w') as f:
-                f.write('check')
-            os.remove(test_file)
-            print("  Directory writable: YES")
-        except Exception as e:
-            print(f"  Directory writable: NO ({str(e)})")
-
 # Initialize and create database tables securely
 with app.app_context():
     try:
         db.create_all()
-        print("Database tables initialized successfully (db.create_all).")
+        print(f"Database tables initialized successfully (using file: {selected_db_path})")
     except Exception as e:
         print(f"Error initializing database: {str(e)}")
 
