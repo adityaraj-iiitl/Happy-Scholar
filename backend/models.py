@@ -16,6 +16,11 @@ class User(db.Model):
     coins = db.Column(db.Integer, default=0)
     streak = db.Column(db.Integer, default=0)
     last_active_date = db.Column(db.String(10), nullable=True) # YYYY-MM-DD
+    
+    # Premium subscription & Camera Solver usage
+    plan = db.Column(db.String(20), default='free')
+    camera_solver_daily_count = db.Column(db.Integer, default=0)
+    camera_solver_last_used_date = db.Column(db.String(10), nullable=True) # YYYY-MM-DD
 
     # Relationships
     entries = db.relationship('DailyEntry', backref='user', lazy=True, cascade="all, delete-orphan")
@@ -46,7 +51,10 @@ class User(db.Model):
             "last_active_date": self.last_active_date,
             "firebase_uid": self.firebase_uid,
             "profile_photo": self.profile_photo,
-            "created_at": self.created_at
+            "created_at": self.created_at,
+            "plan": self.plan,
+            "camera_solver_daily_count": self.camera_solver_daily_count,
+            "camera_solver_last_used_date": self.camera_solver_last_used_date
         }
 
 

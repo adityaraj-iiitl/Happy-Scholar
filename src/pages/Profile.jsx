@@ -13,7 +13,8 @@ import {
   ChevronRight,
   TrendingUp,
   Camera,
-  Trash2
+  Trash2,
+  Sparkles
 } from 'lucide-react';
 
 function Profile() {
@@ -52,6 +53,75 @@ function Profile() {
     };
     fetchProfileData();
   }, []);
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleUpgrade = async () => {
+    try {
+      const loaded = await loadRazorpayScript();
+      if (!loaded) {
+        alert("Failed to load Razorpay SDK. Please check your internet connection.");
+        return;
+      }
+
+      // Create order
+      const order = await api.createPaymentOrder();
+      
+      const options = {
+        key: order.key_id,
+        amount: order.amount,
+        currency: "INR",
+        name: "HappyScholar",
+        description: "Premium Plan Upgrade",
+        order_id: order.order_id,
+        handler: async function (response) {
+          try {
+            const verification = await api.verifyPayment({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (verification.success && verification.user) {
+              localStorage.setItem('user', JSON.stringify(verification.user));
+              setCurrentUser(verification.user);
+              window.dispatchEvent(new Event('user-profile-updated'));
+              alert("Premium activated successfully! ✨");
+            } else {
+              alert("Payment verification failed. Please contact support.");
+            }
+          } catch (err) {
+            alert("Error verifying payment: " + err.message);
+          }
+        },
+        prefill: {
+          name: currentUser?.name || '',
+          email: currentUser?.email || '',
+        },
+        theme: {
+          color: "#8B5CF6",
+        },
+        modal: {
+          ondismiss: function() {
+            alert("Payment cancelled.");
+          }
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      alert("Failed to initiate payment: " + err.message);
+    }
+  };
 
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
@@ -252,6 +322,57 @@ function Profile() {
                     </button>
                   ))}
                 </div>
+              </div>
+            </div>
+
+            {/* Membership Plan Card */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-7 shadow-premium space-y-4">
+              <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800/60 pb-3">
+                <Sparkles className="h-5 w-5 text-indigo-500" /> Subscription Plan
+              </h4>
+              
+              <div className="space-y-4 text-left">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-semibold text-slate-650 dark:text-slate-400">Current Plan:</span>
+                  <span className={`text-xs font-black px-2.5 py-0.5 rounded-full ${
+                    currentUser?.plan === 'premium' 
+                      ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20' 
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-350'
+                  }`}>
+                    {currentUser?.plan === 'premium' ? 'Premium ✨' : 'Free Plan'}
+                  </span>
+                </div>
+
+                {currentUser?.plan !== 'premium' ? (
+                  <div className="space-y-3.5">
+                    <div className="flex justify-between items-center text-sm text-slate-650 dark:text-slate-400">
+                      <span className="font-semibold">Daily solves used:</span>
+                      <strong className="text-slate-900 dark:text-slate-200 font-bold">
+                        {currentUser?.camera_solver_daily_count || 0}/3
+                      </strong>
+                    </div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal font-medium">
+                      Upgrade to HappyScholar Premium to get unlimited AI Camera Solver access!
+                    </p>
+                    <button
+                      onClick={handleUpgrade}
+                      className="w-full py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-extrabold rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      <span>Upgrade to Premium for ₹99</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center text-sm text-slate-650 dark:text-slate-400">
+                      <span className="font-semibold">Daily solves:</span>
+                      <strong className="text-emerald-500 font-black">Unlimited</strong>
+                    </div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-normal font-medium">
+                      Thank you for supporting HappyScholar! You have lifetime unlimited solves on the Camera Solver.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 

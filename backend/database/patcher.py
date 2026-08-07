@@ -41,7 +41,10 @@ def patch_database(app):
             'last_active_date': 'VARCHAR(10)',
             'firebase_uid': 'VARCHAR(100)',
             'profile_photo': 'TEXT',
-            'created_at': 'VARCHAR(20)'
+            'created_at': 'VARCHAR(20)',
+            'plan': "VARCHAR(20) DEFAULT 'free'",
+            'camera_solver_daily_count': 'INTEGER DEFAULT 0',
+            'camera_solver_last_used_date': 'VARCHAR(10)'
         }
         
         for col, col_def in user_patches.items():

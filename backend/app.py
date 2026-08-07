@@ -21,6 +21,7 @@ from routes.revision import revision_bp
 from routes.chatbot import chatbot_bp
 from routes.gamification import gamification_bp
 from routes.notifications import notifications_bp
+from routes.payment import payment_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -64,6 +65,7 @@ app.register_blueprint(revision_bp, url_prefix='/api/revision')
 app.register_blueprint(chatbot_bp, url_prefix='/api/chatbot')
 app.register_blueprint(gamification_bp, url_prefix='/api/gamification')
 app.register_blueprint(notifications_bp, url_prefix='/api/notifications')
+app.register_blueprint(payment_bp, url_prefix='/api/payment')
 
 @app.route("/")
 def home():

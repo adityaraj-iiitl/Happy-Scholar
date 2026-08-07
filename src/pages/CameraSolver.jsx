@@ -14,7 +14,8 @@ import {
   History,
   Sparkles,
   ChevronRight,
-  Clipboard
+  Clipboard,
+  X
 } from 'lucide-react';
 
 function CameraSolver() {
@@ -26,9 +27,92 @@ function CameraSolver() {
   const [extractedQuestion, setExtractedQuestion] = useState('');
   const [solutionText, setSolutionText] = useState('');
   const [tab, setTab] = useState('upload'); // 'upload' or 'webcam'
+  const [currentUser, setCurrentUser] = useState(() => {
+    const userString = localStorage.getItem('user');
+    return userString ? JSON.parse(userString) : null;
+  });
   
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+
+  const getTodaySolvesCount = () => {
+    if (!currentUser) return 0;
+    if (currentUser.plan === 'premium') return 0;
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (currentUser.camera_solver_last_used_date === todayStr) {
+      return currentUser.camera_solver_daily_count || 0;
+    }
+    return 0;
+  };
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleUpgrade = async () => {
+    try {
+      const loaded = await loadRazorpayScript();
+      if (!loaded) {
+        alert("Failed to load Razorpay SDK. Please check your internet connection.");
+        return;
+      }
+
+      // Create order
+      const order = await api.createPaymentOrder();
+      
+      const options = {
+        key: order.key_id,
+        amount: order.amount,
+        currency: "INR",
+        name: "HappyScholar",
+        description: "Premium Plan Upgrade",
+        order_id: order.order_id,
+        handler: async function (response) {
+          try {
+            const verification = await api.verifyPayment({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (verification.success && verification.user) {
+              localStorage.setItem('user', JSON.stringify(verification.user));
+              setCurrentUser(verification.user);
+              window.dispatchEvent(new Event('user-profile-updated'));
+              alert("Premium activated successfully! ✨");
+            } else {
+              alert("Payment verification failed. Please contact support.");
+            }
+          } catch (err) {
+            alert("Error verifying payment: " + err.message);
+          }
+        },
+        prefill: {
+          name: currentUser?.name || '',
+          email: currentUser?.email || '',
+        },
+        theme: {
+          color: "#8B5CF6",
+        },
+        modal: {
+          ondismiss: function() {
+            alert("Payment cancelled.");
+          }
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      alert("Failed to initiate payment: " + err.message);
+    }
+  };
 
   // Fetch solver history
   const fetchHistory = async () => {
@@ -117,6 +201,18 @@ function CameraSolver() {
       setHistory((prev) => [res, ...prev]);
       setSelectedSolution(res);
       setImage(null);
+
+      // Fetch latest user details to update daily limit count
+      try {
+        const meRes = await api.getMe();
+        if (meRes && meRes.user) {
+          localStorage.setItem('user', JSON.stringify(meRes.user));
+          setCurrentUser(meRes.user);
+          window.dispatchEvent(new Event('user-profile-updated'));
+        }
+      } catch (meErr) {
+        console.error("Failed to sync user stats after solve:", meErr);
+      }
     } catch (err) {
       alert("Failed to solve question: " + err.message);
     } finally {
@@ -216,85 +312,127 @@ function CameraSolver() {
               </button>
             </div>
 
-            {/* Video Preview (Webcam) */}
-            {tab === 'webcam' && (
-              <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center">
-                <video
-                  ref={videoRef}
-                  playsInline
-                  muted
-                  className="w-full h-full object-cover"
-                />
-                <canvas ref={canvasRef} className="hidden" />
-                
-                {webcamActive ? (
-                  <button
-                    onClick={capturePhoto}
-                    className="absolute bottom-4 left-1/2 -translate-x-1/2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold rounded-xl shadow-lg shadow-indigo-600/30 flex items-center gap-2 cursor-pointer transition-all hover:scale-105"
-                  >
-                    <Camera className="h-4 w-4" />
-                    <span>Capture Photo</span>
-                  </button>
+            {/* Plan indicator and solves count */}
+            {currentUser && (
+              <div className="p-3 bg-slate-50 dark:bg-slate-950/40 rounded-xl border border-slate-200/50 dark:border-slate-800/50 flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-450">
+                  Plan: <span className={currentUser.plan === 'premium' ? "text-amber-500 font-extrabold" : "text-slate-700 dark:text-slate-350"}>
+                    {currentUser.plan === 'premium' ? 'Premium ✨' : 'Free Plan'}
+                  </span>
+                </span>
+                {currentUser.plan !== 'premium' ? (
+                  <span className="text-xs font-bold text-indigo-500">
+                    {getTodaySolvesCount()}/3 daily solves used
+                  </span>
                 ) : (
-                  <button
-                    onClick={startWebcam}
-                    className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-extrabold border border-slate-700 rounded-xl flex items-center gap-2 cursor-pointer"
-                  >
-                    <Video className="h-4 w-4" />
-                    <span>Start Video</span>
-                  </button>
+                  <span className="text-xs font-bold text-indigo-500">
+                    Unlimited solves
+                  </span>
                 )}
               </div>
             )}
 
-            {/* Image Upload Box */}
-            {tab === 'upload' && !image && (
-              <div className="border border-dashed border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 rounded-2xl p-8 flex flex-col items-center justify-center bg-slate-50/50 dark:bg-slate-950/20 relative transition-all min-h-[200px]">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                />
-                <Upload className="h-8 w-8 text-slate-400 mb-3" />
-                <span className="text-sm font-semibold text-slate-600 dark:text-slate-350 text-center">
-                  Drag & drop image or browse
-                </span>
-                <span className="text-[10px] text-slate-400 mt-1">Supports PNG, JPG, JPEG up to 5MB</span>
-              </div>
-            )}
-
-            {/* Capture/Upload Preview */}
-            {image && (
-              <div className="space-y-4">
-                <div className="relative rounded-xl overflow-hidden bg-slate-950 border border-slate-800">
-                  <img src={image} alt="Preview" className="w-full object-contain max-h-[300px]" />
-                  <button
-                    onClick={() => setImage(null)}
-                    className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-lg transition-colors cursor-pointer"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
+            {/* Main view: either Webcam, Upload, Preview, or Upgrade Block */}
+            {currentUser?.plan !== 'premium' && getTodaySolvesCount() >= 3 ? (
+              <div className="border border-indigo-150 dark:border-indigo-950 bg-indigo-50/10 dark:bg-indigo-950/10 rounded-2xl p-8 flex flex-col items-center justify-center text-center space-y-4 min-h-[220px]">
+                <div className="h-12 w-12 bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-500 rounded-full flex items-center justify-center">
+                  <Sparkles className="h-6 w-6" />
                 </div>
-
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-slate-850 dark:text-slate-100">Daily free limit reached.</h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Upgrade to Premium for unlimited AI solving.</p>
+                </div>
                 <button
-                  onClick={handleSolve}
-                  disabled={isSolving}
-                  className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:from-slate-300 disabled:to-slate-300 dark:disabled:from-slate-800 dark:disabled:to-slate-800 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/15"
+                  onClick={handleUpgrade}
+                  className="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white text-xs font-extrabold rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5"
                 >
-                  {isSolving ? (
-                    <>
-                      <Loader2 className="h-4.5 w-4.5 animate-spin" />
-                      <span>HappyScholar Solving Step-by-Step...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="h-4.5 w-4.5" />
-                      <span>Solve with AI</span>
-                    </>
-                  )}
+                  <Sparkles className="h-4 w-4" />
+                  <span>Upgrade to Premium</span>
                 </button>
               </div>
+            ) : (
+              <>
+                {/* Video Preview (Webcam) */}
+                {tab === 'webcam' && (
+                  <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center">
+                    <video
+                      ref={videoRef}
+                      playsInline
+                      muted
+                      className="w-full h-full object-cover"
+                    />
+                    <canvas ref={canvasRef} className="hidden" />
+                    
+                    {webcamActive ? (
+                      <button
+                        onClick={capturePhoto}
+                        className="absolute bottom-4 left-1/2 -translate-x-1/2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold rounded-xl shadow-lg shadow-indigo-600/30 flex items-center gap-2 cursor-pointer transition-all hover:scale-105"
+                      >
+                        <Camera className="h-4 w-4" />
+                        <span>Capture Photo</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={startWebcam}
+                        className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-xs font-extrabold border border-slate-700 rounded-xl flex items-center gap-2 cursor-pointer"
+                      >
+                        <Video className="h-4 w-4" />
+                        <span>Start Video</span>
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {/* Image Upload Box */}
+                {tab === 'upload' && !image && (
+                  <div className="border border-dashed border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 rounded-2xl p-8 flex flex-col items-center justify-center bg-slate-50/50 dark:bg-slate-950/20 relative transition-all min-h-[200px]">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                    />
+                    <Upload className="h-8 w-8 text-slate-400 mb-3" />
+                    <span className="text-sm font-semibold text-slate-600 dark:text-slate-350 text-center">
+                      Drag & drop image or browse
+                    </span>
+                    <span className="text-[10px] text-slate-400 mt-1">Supports PNG, JPG, JPEG up to 5MB</span>
+                  </div>
+                )}
+
+                {/* Capture/Upload Preview */}
+                {image && (
+                  <div className="space-y-4">
+                    <div className="relative rounded-xl overflow-hidden bg-slate-950 border border-slate-800">
+                      <img src={image} alt="Preview" className="w-full object-contain max-h-[300px]" />
+                      <button
+                        onClick={() => setImage(null)}
+                        className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-lg transition-colors cursor-pointer"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={handleSolve}
+                      disabled={isSolving}
+                      className="w-full py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:from-slate-300 disabled:to-slate-300 dark:disabled:from-slate-800 dark:disabled:to-slate-800 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/15"
+                    >
+                      {isSolving ? (
+                        <>
+                          <Loader2 className="h-4.5 w-4.5 animate-spin" />
+                          <span>HappyScholar Solving Step-by-Step...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="h-4.5 w-4.5" />
+                          <span>Solve with AI</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+              </>
             )}
 
           </div>

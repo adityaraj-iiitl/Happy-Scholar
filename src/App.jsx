@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import VoiceAssistant from './components/VoiceAssistant';
+import { api } from './services/api';
 
 // Existing Pages
 import Dashboard from './pages/Dashboard';
@@ -50,6 +51,27 @@ function App() {
       }
     };
     loadUser();
+
+    const syncUser = async () => {
+      const userString = localStorage.getItem('user');
+      if (userString) {
+        try {
+          const res = await api.getMe();
+          if (res && res.user) {
+            localStorage.setItem('user', JSON.stringify(res.user));
+            setUser(res.user);
+          }
+        } catch (e) {
+          console.error("Failed to sync user session on mount:", e);
+          if (e.message === 'Unauthorized' || e.message === 'User not found') {
+            localStorage.removeItem('user');
+            setUser(null);
+          }
+        }
+      }
+    };
+    syncUser();
+
     window.addEventListener('user-profile-updated', loadUser);
     window.addEventListener('storage', loadUser);
     return () => {

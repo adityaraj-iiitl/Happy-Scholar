@@ -92,6 +92,18 @@ def solve_question():
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
         
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Get current date in YYYY-MM-DD format
+    today_date = datetime.now().strftime("%Y-%m-%d")
+
+    # Enforce limit for free plan
+    if user.plan != 'premium':
+        if user.camera_solver_last_used_date == today_date and user.camera_solver_daily_count >= 3:
+            return jsonify({"error": "Daily free limit reached. Upgrade to Premium for unlimited AI solving."}), 403
+
     data = request.get_json() or {}
     image_data_url = data.get('image') # Base64 data url (e.g. data:image/png;base64,iVBORw...)
     custom_question = data.get('question_text') # Optional fallback question text
@@ -110,6 +122,11 @@ def solve_question():
     prompt = """
     You are an expert academic tutor. Inspect this image containing a school or college question (it could be a math equation, diagram, physics problem, computer code, or question text).
     
+    If the image is blurry, blank, contains no readable academic question, or cannot be read, please return a JSON object with:
+    - "question_text": "Unreadable image"
+    - "solution_text": "I couldn't clearly read the question. Please upload a clearer image."
+    
+    Otherwise:
     1. Perform OCR to extract the question text accurately.
     2. Solve the question. Provide a detailed, step-by-step explanation of the solution.
     3. If it is a math question, explain all equations and calculations clearly.
@@ -134,6 +151,9 @@ def solve_question():
             
         solved_data = json.loads(cleaned_text.strip())
         
+        # Verify if Gemini returned unreadable status
+        is_unreadable = solved_data.get('question_text') == "Unreadable image"
+        
         today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         
         new_q = SolvedQuestion(
@@ -145,10 +165,24 @@ def solve_question():
         )
         
         db.session.add(new_q)
+        
+        # Increment limit if user is free and it was a successful (or even attempted/unreadable) solve.
+        # But wait, does an unreadable image count? Let's check requirements:
+        # "Maximum 3 successful Camera Solver AI requests per day."
+        # If the image is unreadable, it's not a successful solve. So we only increment if not unreadable!
+        # This is extremely clean and matching the spirit of "successful requests".
+        if user.plan != 'premium' and not is_unreadable:
+            if user.camera_solver_last_used_date == today_date:
+                user.camera_solver_daily_count += 1
+            else:
+                user.camera_solver_last_used_date = today_date
+                user.camera_solver_daily_count = 1
+        
         db.session.commit()
         
-        # Reward XP
-        reward_solver_xp(user_id)
+        # Reward XP only if readable/successful
+        if not is_unreadable:
+            reward_solver_xp(user_id)
         
         return jsonify(new_q.to_dict()), 201
     except Exception as e:

@@ -134,7 +134,14 @@ function Sidebar({ user, logout, theme, toggleTheme, sidebarOpen }) {
                 <span className="absolute bottom-0 right-0 h-3.5 w-3.5 bg-emerald-500 rounded-full border-2 border-[#3F3F46] animate-pulse" />
               </div>
               <div className="overflow-hidden min-w-0">
-                <h4 className="text-[28px] font-bold truncate text-white leading-none tracking-tight mb-1.5">{user.name}</h4>
+                <h4 className="text-[28px] font-bold truncate text-white leading-none tracking-tight mb-1.5 flex items-center gap-1.5">
+                  <span>{user.name}</span>
+                  {user.plan === 'premium' && (
+                    <span className="text-[9px] bg-amber-500 text-white font-black px-1.5 py-0.5 rounded-full uppercase tracking-wider shrink-0 select-none shadow-sm scale-90">
+                      PRO ✨
+                    </span>
+                  )}
+                </h4>
                 <p className="text-[14px] truncate text-slate-350 opacity-70 font-medium leading-none">{user.email}</p>
               </div>
             </div>

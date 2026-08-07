@@ -325,4 +325,22 @@ export const api = {
       body: JSON.stringify({ id })
     });
   },
+
+  // Razorpay Premium Payments
+  getPremiumPrice: async () => {
+    return request('/payment/price');
+  },
+
+  createPaymentOrder: async () => {
+    return request('/payment/create-order', {
+      method: 'POST',
+    });
+  },
+
+  verifyPayment: async (payload) => {
+    return request('/payment/verify-payment', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
 };
