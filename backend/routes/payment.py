@@ -12,6 +12,13 @@ payment_bp = Blueprint('payment', __name__)
 
 PREMIUM_PRICE_INR = 99
 
+# Global list (simple thread-safe container) to store logs of the last verification attempt
+last_verification_logs = []
+
+def log_diagnostic(msg):
+    current_app.logger.info(msg)
+    last_verification_logs.append(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {msg}")
+
 def get_razorpay_creds():
     key_id = os.getenv('RAZORPAY_KEY_ID')
     key_secret = os.getenv('RAZORPAY_KEY_SECRET')
@@ -23,35 +30,59 @@ def get_authenticated_user():
     1. Extracts and verifies Firebase token if present.
     2. Falls back to verifying the HMAC signature of X-User-Id to prevent tampering.
     """
-    # 1. Firebase Token Validation
+    from utils.firebase import firebase_initialized
+    
+    # Reset logging checklist for new request
+    last_verification_logs.clear()
+    log_diagnostic("Payment Auth Verification Start:")
+    
     auth_header = request.headers.get('Authorization')
-    if auth_header and auth_header.startswith('Bearer '):
-        firebase_token = auth_header.split('Bearer ')[1]
-        try:
-            decoded = verify_firebase_token(firebase_token)
-            firebase_uid = decoded.get('uid')
-            if firebase_uid:
-                user = User.query.filter_by(firebase_uid=firebase_uid).first()
-                if user:
-                    return user
-        except Exception as e:
-            current_app.logger.error(f"Payment Auth: Firebase ID token verification failed: {str(e)}")
-
-    # 2. Signed X-User-Id Validation
     user_id = request.headers.get('X-User-Id')
     signature = request.headers.get('X-User-Signature')
     
+    log_diagnostic(f"  Authorization Header Present: {'YES' if auth_header else 'NO'}")
+    log_diagnostic(f"  Firebase Admin SDK Initialized: {'YES' if firebase_initialized else 'NO'}")
+    log_diagnostic(f"  X-User-Id Header: {user_id}")
+    log_diagnostic(f"  X-User-Signature Header Present: {'YES' if signature else 'NO'}")
+
+    # 1. Firebase Token Validation
+    if auth_header and auth_header.startswith('Bearer '):
+        firebase_token = auth_header.split('Bearer ')[1]
+        log_diagnostic(f"  Bearer Token Parsed: {'YES' if firebase_token else 'NO'}")
+        if firebase_token:
+            try:
+                decoded = verify_firebase_token(firebase_token)
+                firebase_uid = decoded.get('uid')
+                log_diagnostic(f"  Token Decode: SUCCESS (verified status: {decoded.get('verified')})")
+                log_diagnostic(f"  Firebase UID: {firebase_uid}")
+                
+                if firebase_uid:
+                    user = User.query.filter_by(firebase_uid=firebase_uid).first()
+                    log_diagnostic(f"  SQLite User found by Firebase UID: {'YES' if user else 'NO'}")
+                    if user:
+                        log_diagnostic("Payment Auth: Firebase Verification SUCCESS")
+                        return user
+            except Exception as e:
+                log_diagnostic(f"  Token Verification Exception: {str(e)}")
+    
+    # 2. Signed X-User-Id Validation
     if user_id and signature:
         secret = os.getenv('SECRET_KEY', 'studentsync_secret_key_123')
         msg = str(user_id).encode('utf-8')
         expected = hmac.new(secret.encode('utf-8'), msg, hashlib.sha256).hexdigest()
-        if hmac.compare_digest(expected, signature):
+        is_signature_valid = hmac.compare_digest(expected, signature)
+        log_diagnostic(f"  HMAC Signature valid: {'YES' if is_signature_valid else 'NO'}")
+        
+        if is_signature_valid:
             user = User.query.get(user_id)
+            log_diagnostic(f"  SQLite User found by signed ID: {'YES' if user else 'NO'}")
             if user:
+                log_diagnostic("Payment Auth: HMAC Verification SUCCESS")
                 return user
         else:
-            current_app.logger.warning(f"Payment Auth: Tampering detected for user ID {user_id}. Signature mismatch.")
+            log_diagnostic(f"  HMAC mismatch. Expected: {expected}, Given: {signature}")
             
+    log_diagnostic("Payment Auth Verification End: Authentication FAILED")
     return None
 
 @payment_bp.route('/price', methods=['GET'])
@@ -155,6 +186,19 @@ def diagnose_payment():
     is_test = "YES" if (key_id and key_id.startswith("rzp_test_")) else "NO"
     is_live = "YES" if (key_id and key_id.startswith("rzp_live_")) else "NO"
     
+    # Check Firebase project variables
+    from utils.firebase import firebase_initialized
+    import firebase_admin
+    
+    firebase_project = "N/A"
+    try:
+        if firebase_admin._apps:
+            app_instance = firebase_admin.get_app()
+            if app_instance.options:
+                firebase_project = app_instance.options.get('projectId', 'N/A')
+    except Exception:
+        pass
+        
     diagnostic_info = {
         "Razorpay configuration loaded": "YES" if (key_id and key_secret) else "NO",
         "Key ID configured": "YES" if key_id else "NO",
@@ -163,7 +207,10 @@ def diagnose_payment():
         "Mode appears to be TEST": is_test,
         "Mode appears to be LIVE": is_live,
         "Amount (paise)": 9900,
-        "Currency": "INR"
+        "Currency": "INR",
+        "Firebase Admin SDK Initialized": "YES" if firebase_initialized else "NO",
+        "Firebase Project ID": firebase_project,
+        "Last verification logs": list(last_verification_logs)
     }
     
     if not key_id or not key_secret:
