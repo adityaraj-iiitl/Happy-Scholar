@@ -34,11 +34,11 @@ CORS(app)
 app.secret_key = os.getenv('SECRET_KEY', 'studentsync_secret_key_123')
 
 # Database configuration
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 db_path = os.getenv('SQLITE_DB_PATH')
 if db_path:
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 else:
-    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(BASE_DIR, 'studentsync.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -60,16 +60,50 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     except Exception:
         pass
 
-# Run database schema migrations/patches
-patch_database(app)
+# Verify and prepare database directory
+db_uri = app.config.get('SQLALCHEMY_DATABASE_URI', '')
+if db_uri.startswith('sqlite:///'):
+    resolved_db_path = db_uri.replace('sqlite:///', '')
+    if not os.path.isabs(resolved_db_path):
+        resolved_db_path = os.path.join(BASE_DIR, resolved_db_path)
+    
+    db_dir = os.path.dirname(resolved_db_path)
+    
+    print("Database Path Diagnostics:")
+    print(f"  Database URI: {db_uri}")
+    print(f"  Resolved path: {resolved_db_path}")
+    print(f"  Directory path: {db_dir}")
+    
+    if db_dir:
+        dir_exists = os.path.exists(db_dir)
+        print(f"  Directory exists: {'YES' if dir_exists else 'NO'}")
+        if not dir_exists:
+            try:
+                os.makedirs(db_dir, exist_ok=True)
+                print("  Directory created: YES")
+            except Exception as e:
+                print(f"  Directory creation failed: {str(e)}")
+        
+        # Test parent folder writability
+        try:
+            test_file = os.path.join(db_dir, '.db_write_test')
+            with open(test_file, 'w') as f:
+                f.write('check')
+            os.remove(test_file)
+            print("  Directory writable: YES")
+        except Exception as e:
+            print(f"  Directory writable: NO ({str(e)})")
 
-# Create tables if they do not exist
+# Initialize and create database tables securely
 with app.app_context():
     try:
         db.create_all()
-        print("Database tables initialized successfully.")
+        print("Database tables initialized successfully (db.create_all).")
     except Exception as e:
         print(f"Error initializing database: {str(e)}")
+
+# Run database schema migrations/patches after the DB file is guaranteed to exist
+patch_database(app)
 
 # Register Blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
