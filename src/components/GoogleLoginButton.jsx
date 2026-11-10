@@ -6,7 +6,7 @@ function GoogleLoginButton({ onClick, disabled }) {
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="w-full py-3 px-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 font-semibold rounded-xl text-sm transition-all border border-slate-200 dark:border-slate-750 shadow-sm hover:shadow-md flex justify-center items-center gap-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+      className="w-full py-3 px-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 font-semibold rounded-xl text-sm transition-all border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md flex justify-center items-center gap-3 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
     >
       <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path

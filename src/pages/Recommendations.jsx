@@ -36,9 +36,9 @@ const CATEGORY_MAP = {
 const getConfidenceBadgeColor = (c) => {
   switch (c) {
     case 'Highly Recommended':
-      return 'bg-rose-500/10 text-rose-500 dark:text-rose-450 border border-rose-500/20';
+      return 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/25';
     case 'Recommended':
-      return 'bg-indigo-500/10 text-indigo-500 dark:text-indigo-450 border border-indigo-500/20';
+      return 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/25';
     default:
       return 'bg-slate-500/10 text-slate-500 dark:text-slate-400 border border-slate-500/20';
   }
@@ -152,7 +152,7 @@ function Recommendations() {
                 {/* Footer price & shop buttons */}
                 <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/60 space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-slate-450 dark:text-slate-500 font-semibold uppercase tracking-wider">Est. Price</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">Est. Price</span>
                     <span className="text-xl font-extrabold text-slate-950 dark:text-white">{item.estimated_price}</span>
                   </div>
 
@@ -161,7 +161,7 @@ function Recommendations() {
                       href={item.amazon_search}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-amber-500/10 hover:bg-amber-500 text-amber-700 dark:text-amber-450 hover:text-white border border-amber-500/20 hover:border-transparent rounded-xl text-xs font-bold transition-all hover:scale-[1.02] active:scale-98 cursor-pointer text-center"
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 bg-amber-500/10 hover:bg-amber-500 text-amber-800 dark:text-amber-300 hover:text-white border border-amber-500/20 hover:border-transparent rounded-xl text-xs font-bold transition-all hover:scale-[1.02] active:scale-98 cursor-pointer text-center"
                     >
                       <span>Amazon</span>
                       <ExternalLink className="h-3 w-3 shrink-0" />

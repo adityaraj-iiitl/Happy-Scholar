@@ -277,7 +277,7 @@ function Dashboard() {
                         }`}
                       >
                         <div className="flex-1">
-                          <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-350 leading-relaxed">
+                          <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-200 leading-relaxed">
                             {notif.message}
                           </p>
                           <span className="text-[8px] text-slate-400 block mt-1">{notif.created_at}</span>
@@ -405,7 +405,7 @@ function Dashboard() {
                     </svg>
                     <span className="absolute text-[10px] font-black text-[#1E293B] dark:text-white">85%</span>
                   </div>
-                  <span className="text-[8px] font-bold text-[#64748B] uppercase tracking-wider">Prod. Score</span>
+                  <span className="text-[8px] font-bold text-[#64748B] dark:text-slate-400 uppercase tracking-wider">Prod. Score</span>
                 </div>
               </div>
 
@@ -475,7 +475,7 @@ function Dashboard() {
             <AlertTriangle className="h-5 w-5" />
           </div>
           <div>
-            <h3 className="font-bold text-xs md:text-sm text-amber-900 dark:text-amber-250">Academic Burnout Risk Warning</h3>
+            <h3 className="font-bold text-xs md:text-sm text-amber-900 dark:text-amber-300">Academic Burnout Risk Warning</h3>
             <p className="text-[11px] md:text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">{burnoutReason}</p>
           </div>
         </div>
@@ -483,7 +483,7 @@ function Dashboard() {
 
       {/* AI Assistants Grid Section */}
       <div className="space-y-6">
-        <h3 className="text-lg md:text-[22px] font-black text-[#1E293B] dark:text-white tracking-tight flex items-center gap-2.5">
+        <h3 className="text-lg md:text-[22px] font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2.5">
           <Sparkles className="h-5.5 w-5.5 text-primary-brand animate-pulse" />
           <span>Launch AI Core Helpers</span>
         </h3>
@@ -491,132 +491,132 @@ function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
           {/* Card 1: AI Notes (Blue Theme) */}
-          <div className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(59,130,246,0.12)] hover:border-blue-500/30 flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 h-24 w-24 bg-blue-500/5 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
-            <div className="space-y-4">
-              <div className="h-11 w-11 rounded-xl bg-blue-500/10 dark:bg-blue-500/15 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
+          <div className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[20px] p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-500/40 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-0 right-0 h-24 w-24 bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
+            <div className="space-y-4 relative z-10">
+              <div className="h-11 w-11 rounded-xl bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
                 <FileText className="h-5.5 w-5.5" />
               </div>
               <div className="space-y-1.5">
-                <h4 className="text-sm font-black text-[#1E293B] dark:text-white">AI Notes Generator</h4>
-                <p className="text-xs text-[#64748B] dark:text-slate-405 leading-relaxed">
+                <h4 className="text-sm font-black text-slate-900 dark:text-white">AI Notes Generator</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                   Generate detailed notes, bullet points, and clean study summaries from raw text or uploaded documents.
                 </p>
               </div>
             </div>
             <button
               onClick={() => navigate('/notes')}
-              className="mt-6 w-full py-2 bg-blue-50 hover:bg-blue-500 hover:text-white dark:bg-blue-950/30 dark:hover:bg-blue-900/40 text-blue-600 dark:text-blue-400 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center"
+              className="mt-6 w-full py-2.5 bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white dark:bg-blue-950/40 dark:hover:bg-blue-600 dark:text-blue-300 dark:hover:text-white border border-blue-200/60 dark:border-blue-800/60 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center active:scale-[0.98] shadow-xs"
             >
               Launch Notes App
             </button>
           </div>
 
           {/* Card 2: AI Doubt Chat (Purple Theme) */}
-          <div className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(124,58,237,0.12)] hover:border-primary-brand/30 flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 h-24 w-24 bg-primary-brand/5 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
-            <div className="space-y-4">
-              <div className="h-11 w-11 rounded-xl bg-[#7C3AED]/10 dark:bg-[#7C3AED]/15 flex items-center justify-center text-[#7C3AED] dark:text-purple-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
+          <div className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[20px] p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:border-primary-brand/40 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-0 right-0 h-24 w-24 bg-primary-brand/5 dark:bg-primary-brand/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
+            <div className="space-y-4 relative z-10">
+              <div className="h-11 w-11 rounded-xl bg-primary-brand/10 dark:bg-primary-brand/20 flex items-center justify-center text-primary-brand dark:text-purple-300 shadow-xs transition-transform duration-300 group-hover:rotate-12">
                 <MessageSquare className="h-5.5 w-5.5" />
               </div>
               <div className="space-y-1.5">
-                <h4 className="text-sm font-black text-[#1E293B] dark:text-white">AI Doubt Chat</h4>
-                <p className="text-xs text-[#64748B] dark:text-slate-405 leading-relaxed">
+                <h4 className="text-sm font-black text-slate-900 dark:text-white">AI Doubt Chat</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                   Got academic doubts? Chat with the AI tutor and receive detailed, step-by-step guidance on any topic.
                 </p>
               </div>
             </div>
             <button
               onClick={() => navigate('/chatbot')}
-              className="mt-6 w-full py-2 bg-purple-50 hover:bg-primary-brand hover:text-white dark:bg-primary-brand/10 dark:hover:bg-primary-brand/30 text-primary-brand dark:text-purple-400 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center"
+              className="mt-6 w-full py-2.5 bg-purple-50 hover:bg-primary-brand text-primary-brand hover:text-white dark:bg-purple-950/40 dark:hover:bg-primary-brand dark:text-purple-300 dark:hover:text-white border border-purple-200/60 dark:border-purple-800/60 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center active:scale-[0.98] shadow-xs"
             >
               Start Chatting
             </button>
           </div>
 
           {/* Card 3: Camera Solver (Green Theme) */}
-          <div className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(16,185,129,0.12)] hover:border-emerald-500/30 flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 h-24 w-24 bg-emerald-500/5 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
-            <div className="space-y-4">
-              <div className="h-11 w-11 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/15 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
+          <div className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[20px] p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-500/40 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-0 right-0 h-24 w-24 bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
+            <div className="space-y-4 relative z-10">
+              <div className="h-11 w-11 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
                 <Camera className="h-5.5 w-5.5" />
               </div>
               <div className="space-y-1.5">
-                <h4 className="text-sm font-black text-[#1E293B] dark:text-white">AI Camera Solver</h4>
-                <p className="text-xs text-[#64748B] dark:text-slate-405 leading-relaxed">
+                <h4 className="text-sm font-black text-slate-900 dark:text-white">AI Camera Solver</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                   Upload or snapshot a math formula, question, or text and let AI explain the solution step by step.
                 </p>
               </div>
             </div>
             <button
               onClick={() => navigate('/camera-solver')}
-              className="mt-6 w-full py-2 bg-emerald-50 hover:bg-emerald-500 hover:text-white dark:bg-emerald-950/30 dark:hover:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center"
+              className="mt-6 w-full py-2.5 bg-emerald-50 hover:bg-emerald-600 text-emerald-800 hover:text-white dark:bg-emerald-950/40 dark:hover:bg-emerald-600 dark:text-emerald-300 dark:hover:text-white border border-emerald-200/60 dark:border-emerald-800/60 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center active:scale-[0.98] shadow-xs"
             >
               Launch Camera
             </button>
           </div>
 
           {/* Card 4: Study Planner (Teal Theme) */}
-          <div className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(20,184,166,0.12)] hover:border-teal-500/30 flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 h-24 w-24 bg-teal-500/5 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
-            <div className="space-y-4">
-              <div className="h-11 w-11 rounded-xl bg-teal-500/10 dark:bg-teal-500/15 flex items-center justify-center text-teal-650 dark:text-teal-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
+          <div className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[20px] p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-500/40 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-0 right-0 h-24 w-24 bg-teal-500/5 dark:bg-teal-500/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
+            <div className="space-y-4 relative z-10">
+              <div className="h-11 w-11 rounded-xl bg-teal-500/10 dark:bg-teal-500/20 flex items-center justify-center text-teal-600 dark:text-teal-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
                 <Calendar className="h-5.5 w-5.5" />
               </div>
               <div className="space-y-1.5">
-                <h4 className="text-sm font-black text-[#1E293B] dark:text-white">AI Study Planner</h4>
-                <p className="text-xs text-[#64748B] dark:text-slate-405 leading-relaxed">
+                <h4 className="text-sm font-black text-slate-900 dark:text-white">AI Study Planner</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                   Input your exam dates and subjects, and let AI outline an adaptive schedule leading up to your test.
                 </p>
               </div>
             </div>
             <button
               onClick={() => navigate('/planner')}
-              className="mt-6 w-full py-2 bg-teal-50 hover:bg-teal-500 hover:text-white dark:bg-teal-950/30 dark:hover:bg-teal-900/40 text-teal-700 dark:text-teal-400 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center"
+              className="mt-6 w-full py-2.5 bg-teal-50 hover:bg-teal-600 text-teal-800 hover:text-white dark:bg-teal-950/40 dark:hover:bg-teal-600 dark:text-teal-300 dark:hover:text-white border border-teal-200/60 dark:border-teal-800/60 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center active:scale-[0.98] shadow-xs"
             >
               Open Planner
             </button>
           </div>
 
           {/* Card 5: Quiz Generator (Orange Theme) */}
-          <div className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(249,115,22,0.12)] hover:border-orange-500/30 flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 h-24 w-24 bg-orange-500/5 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
-            <div className="space-y-4">
-              <div className="h-11 w-11 rounded-xl bg-orange-500/10 dark:bg-orange-500/15 flex items-center justify-center text-orange-655 dark:text-orange-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
+          <div className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[20px] p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:border-orange-500/40 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-0 right-0 h-24 w-24 bg-orange-500/5 dark:bg-orange-500/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
+            <div className="space-y-4 relative z-10">
+              <div className="h-11 w-11 rounded-xl bg-orange-500/10 dark:bg-orange-500/20 flex items-center justify-center text-orange-600 dark:text-orange-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
                 <HelpCircle className="h-5.5 w-5.5" />
               </div>
               <div className="space-y-1.5">
-                <h4 className="text-sm font-black text-[#1E293B] dark:text-white">AI Quiz Generator</h4>
-                <p className="text-xs text-[#64748B] dark:text-slate-405 leading-relaxed">
+                <h4 className="text-sm font-black text-slate-900 dark:text-white">AI Quiz Generator</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                   Practice questions on customized topics, note material, or text to solidify your academic foundation.
                 </p>
               </div>
             </div>
             <button
               onClick={() => navigate('/quizzes')}
-              className="mt-6 w-full py-2 bg-orange-50 hover:bg-orange-500 hover:text-white dark:bg-orange-950/30 dark:hover:bg-orange-900/40 text-orange-700 dark:text-orange-400 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center"
+              className="mt-6 w-full py-2.5 bg-orange-50 hover:bg-orange-600 text-orange-800 hover:text-white dark:bg-orange-950/40 dark:hover:bg-orange-600 dark:text-orange-300 dark:hover:text-white border border-orange-200/60 dark:border-orange-800/60 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center active:scale-[0.98] shadow-xs"
             >
               Test Knowledge
             </button>
           </div>
 
           {/* Card 6: Smart Revision (Pink Theme) */}
-          <div className="group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 shadow-[0_10px_25px_-5px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_30px_60px_-15px_rgba(236,72,153,0.12)] hover:border-pink-500/30 flex flex-col justify-between relative overflow-hidden">
-            <div className="absolute top-0 right-0 h-24 w-24 bg-pink-500/5 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
-            <div className="space-y-4">
-              <div className="h-11 w-11 rounded-xl bg-pink-500/10 dark:bg-pink-500/15 flex items-center justify-center text-pink-650 dark:text-pink-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
+          <div className="group bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[20px] p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:border-pink-500/40 flex flex-col justify-between relative overflow-hidden">
+            <div className="absolute top-0 right-0 h-24 w-24 bg-pink-500/5 dark:bg-pink-500/10 rounded-full blur-2xl group-hover:scale-125 transition-transform" />
+            <div className="space-y-4 relative z-10">
+              <div className="h-11 w-11 rounded-xl bg-pink-500/10 dark:bg-pink-500/20 flex items-center justify-center text-pink-600 dark:text-pink-400 shadow-xs transition-transform duration-300 group-hover:rotate-12">
                 <Layers className="h-5.5 w-5.5" />
               </div>
               <div className="space-y-1.5">
-                <h4 className="text-sm font-black text-[#1E293B] dark:text-white">Smart Revision</h4>
-                <p className="text-xs text-[#64748B] dark:text-slate-405 leading-relaxed">
+                <h4 className="text-sm font-black text-slate-900 dark:text-white">Smart Revision</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                   Utilize spaced repetition to check what you remember and set up active recall intervals for cards.
                 </p>
               </div>
             </div>
             <button
               onClick={() => navigate('/revision')}
-              className="mt-6 w-full py-2 bg-pink-50 hover:bg-pink-500 hover:text-white dark:bg-pink-950/30 dark:hover:bg-pink-900/40 text-pink-700 dark:text-pink-400 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center"
+              className="mt-6 w-full py-2.5 bg-pink-50 hover:bg-pink-600 text-pink-700 hover:text-white dark:bg-pink-950/40 dark:hover:bg-pink-600 dark:text-pink-300 dark:hover:text-white border border-pink-200/60 dark:border-pink-800/60 font-bold rounded-[16px] text-xs transition-all duration-200 cursor-pointer text-center active:scale-[0.98] shadow-xs"
             >
               Start Revision
             </button>
@@ -634,14 +634,14 @@ function Dashboard() {
       ) : (
         <>
           {/* Row: Streak Badges */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 md:p-7 shadow-premium">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium">
             <h3 className="text-base md:text-lg font-black text-[#1E293B] dark:text-slate-100 tracking-tight mb-5 flex items-center gap-2">
               <Flame className="h-5.5 w-5.5 text-orange-500 animate-flame" /> 
               <span>Active Wellness Habit Streaks</span>
             </h3>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="flex items-center gap-3.5 p-3.5 bg-indigo-500/5 dark:bg-indigo-950/20 border border-indigo-500/10 dark:border-indigo-900/20 rounded-2xl transition-premium hover:-translate-y-0.5">
-                <div className="h-10 w-10 bg-indigo-500/10 dark:bg-indigo-950 flex items-center justify-center rounded-xl text-indigo-650 dark:text-indigo-400 shadow-xs">
+                <div className="h-10 w-10 bg-indigo-500/10 dark:bg-indigo-950 flex items-center justify-center rounded-xl text-indigo-600 dark:text-indigo-400 shadow-xs">
                   <Moon className="h-5 w-5" />
                 </div>
                 <div>
@@ -651,7 +651,7 @@ function Dashboard() {
               </div>
 
               <div className="flex items-center gap-3.5 p-3.5 bg-blue-500/5 dark:bg-blue-950/20 border border-blue-500/10 dark:border-blue-900/20 rounded-2xl transition-premium hover:-translate-y-0.5">
-                <div className="h-10 w-10 bg-blue-500/10 dark:bg-blue-950 flex items-center justify-center rounded-xl text-blue-650 dark:text-blue-400 shadow-xs">
+                <div className="h-10 w-10 bg-blue-500/10 dark:bg-blue-950 flex items-center justify-center rounded-xl text-blue-600 dark:text-blue-400 shadow-xs">
                   <Droplet className="h-5 w-5" />
                 </div>
                 <div>
@@ -661,7 +661,7 @@ function Dashboard() {
               </div>
 
               <div className="flex items-center gap-3.5 p-3.5 bg-violet-500/5 dark:bg-violet-950/20 border border-violet-500/10 dark:border-violet-900/20 rounded-2xl transition-premium hover:-translate-y-0.5">
-                <div className="h-10 w-10 bg-violet-500/10 dark:bg-violet-950 flex items-center justify-center rounded-xl text-violet-650 dark:text-violet-400 shadow-xs">
+                <div className="h-10 w-10 bg-violet-500/10 dark:bg-violet-950 flex items-center justify-center rounded-xl text-violet-600 dark:text-violet-400 shadow-xs">
                   <BookOpen className="h-5 w-5" />
                 </div>
                 <div>
@@ -671,7 +671,7 @@ function Dashboard() {
               </div>
 
               <div className="flex items-center gap-3.5 p-3.5 bg-emerald-500/5 dark:bg-emerald-950/20 border border-emerald-500/10 dark:border-emerald-900/20 rounded-2xl transition-premium hover:-translate-y-0.5">
-                <div className="h-10 w-10 bg-emerald-500/10 dark:bg-emerald-950 flex items-center justify-center rounded-xl text-emerald-655 dark:text-emerald-400 shadow-xs">
+                <div className="h-10 w-10 bg-emerald-500/10 dark:bg-emerald-950 flex items-center justify-center rounded-xl text-emerald-600 dark:text-emerald-400 shadow-xs">
                   <Zap className="h-5 w-5" />
                 </div>
                 <div>
@@ -685,10 +685,10 @@ function Dashboard() {
           {/* Row: Today's Snapshot Card Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
             
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
               <div>
                 <div className="text-indigo-500 bg-indigo-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><Moon className="h-5 w-5" /></div>
-                <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-505 uppercase tracking-wide leading-none">Sleep Hours</h4>
+                <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-400 uppercase tracking-wide leading-none">Sleep Hours</h4>
               </div>
               <div className="mt-4">
                 <p className="text-2xl md:text-3xl font-black text-[#1E293B] dark:text-white leading-none">
@@ -700,7 +700,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
               <div>
                 <div className="text-blue-500 bg-blue-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><Droplet className="h-5 w-5" /></div>
                 <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-500 uppercase tracking-wide leading-none">Water Intake</h4>
@@ -713,7 +713,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between col-span-2 lg:col-span-1">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between col-span-2 lg:col-span-1">
               <div>
                 <div className="text-violet-500 bg-violet-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><BookOpen className="h-5 w-5" /></div>
                 <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-500 uppercase tracking-wide leading-none">Study & Code</h4>
@@ -728,7 +728,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
               <div>
                 <div className="text-emerald-500 bg-emerald-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><Smile className="h-5 w-5" /></div>
                 <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-500 uppercase tracking-wide leading-none">Daily Mood</h4>
@@ -741,7 +741,7 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
               <div>
                 <div className="text-rose-500 bg-rose-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><Brain className="h-5 w-5" /></div>
                 <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-500 uppercase tracking-wide leading-none">Stress Level</h4>
@@ -760,7 +760,7 @@ function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             {/* Sleep & Stress Trends */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
               <h3 className="text-sm font-bold text-[#1E293B] dark:text-slate-200 mb-6 flex items-center gap-2 tracking-tight uppercase">
                 <Moon className="h-4.5 w-4.5 text-primary-brand" /> 
                 <span>Sleep duration vs. Stress correlation</span>
@@ -794,7 +794,7 @@ function Dashboard() {
             </div>
 
             {/* Study Hours Trend */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
               <h3 className="text-sm font-bold text-[#1E293B] dark:text-slate-200 mb-6 flex items-center gap-2 tracking-tight uppercase">
                 <BookOpen className="h-4.5 w-4.5 text-primary-brand" /> 
                 <span>Academic focus hours (Study vs Coding)</span>
@@ -822,7 +822,7 @@ function Dashboard() {
             </div>
 
             {/* Water Intake History */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
               <h3 className="text-sm font-bold text-[#1E293B] dark:text-slate-200 mb-6 flex items-center gap-2 tracking-tight uppercase">
                 <Droplet className="h-4.5 w-4.5 text-[#3B82F6]" /> 
                 <span>Hydration patterns history</span>
@@ -855,7 +855,7 @@ function Dashboard() {
             </div>
 
             {/* Exercise & Screen Time */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
               <h3 className="text-sm font-bold text-[#1E293B] dark:text-slate-200 mb-6 flex items-center gap-2 tracking-tight uppercase">
                 <Clock className="h-4.5 w-4.5 text-primary-brand" /> 
                 <span>Screen time vs. active exercise</span>
@@ -888,7 +888,7 @@ function Dashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             {/* AI Focus & Suggestions */}
-            <div className="lg:col-span-6 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 shadow-premium relative overflow-hidden flex flex-col justify-between">
+            <div className="lg:col-span-6 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 shadow-premium relative overflow-hidden flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h4 className="text-sm font-extrabold text-[#1E293B] dark:text-white uppercase tracking-wider flex items-center gap-2">
@@ -899,34 +899,34 @@ function Dashboard() {
                 
                 <div className="p-4 bg-primary-brand/5 border border-primary-brand/10 rounded-2xl space-y-2">
                   <p className="text-xs font-bold text-primary-brand">Gemini AI Tip:</p>
-                  <p className="text-xs text-[#1E293B] dark:text-slate-350 leading-relaxed font-semibold">
+                  <p className="text-xs text-[#1E293B] dark:text-slate-200 leading-relaxed font-semibold">
                     "Your stress levels correlate closely with sleep debt. Consider study-interval blocks of 45 mins with 10 min hydration breaks today."
                   </p>
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center justify-between text-xs text-[#64748B] dark:text-slate-450 border-t border-slate-100 dark:border-slate-800/40 pt-4">
+              <div className="mt-6 flex items-center justify-between text-xs text-[#64748B] dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/40 pt-4">
                 <span>⏱️ Recommended focus duration: <strong className="text-[#1E293B] dark:text-slate-100">45m</strong></span>
                 <button onClick={() => navigate('/pomodoro')} className="text-primary-brand hover:underline font-bold">Start focus session →</button>
               </div>
             </div>
 
             {/* Upcoming Tasks & Quick Actions */}
-            <div className="lg:col-span-6 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 shadow-premium flex flex-col justify-between">
+            <div className="lg:col-span-6 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 shadow-premium flex flex-col justify-between">
               <div className="space-y-4">
                 <h4 className="text-sm font-extrabold text-[#1E293B] dark:text-white uppercase tracking-wider flex items-center gap-2">
                   <ClipboardCheck className="h-4.5 w-4.5 text-primary-brand" /> Today's Focus Schedule
                 </h4>
                 
                 <div className="space-y-2.5">
-                  <div className="flex items-center justify-between p-3 bg-slate-50/50 dark:bg-slate-950/40 border border-slate-150 dark:border-slate-850/30 rounded-xl">
+                  <div className="flex items-center justify-between p-3 bg-slate-50/50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/60 rounded-xl">
                     <span className="text-xs text-[#1E293B] dark:text-slate-300 font-semibold flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-primary-brand" /> Log hydration targets
                     </span>
                     <span className="text-[10px] text-slate-400 font-bold uppercase">To-do</span>
                   </div>
 
-                  <div className="flex items-center justify-between p-3 bg-slate-50/50 dark:bg-slate-950/40 border border-slate-150 dark:border-slate-850/30 rounded-xl">
+                  <div className="flex items-center justify-between p-3 bg-slate-50/50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/60 rounded-xl">
                     <span className="text-xs text-[#1E293B] dark:text-slate-300 font-semibold flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-secondary-brand" /> Complete Daily study plan
                     </span>
@@ -935,7 +935,7 @@ function Dashboard() {
                 </div>
               </div>
 
-              <div className="mt-4 flex items-center justify-between text-xs text-[#64748B] dark:text-slate-450 border-t border-slate-100 dark:border-slate-800/40 pt-4">
+              <div className="mt-4 flex items-center justify-between text-xs text-[#64748B] dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/40 pt-4">
                 <span>⚡ Quick Actions list</span>
                 <button onClick={() => navigate('/daily-entry')} className="text-secondary-brand hover:underline font-bold">Add entry →</button>
               </div>
@@ -944,7 +944,7 @@ function Dashboard() {
           </div>
 
           {/* Row: AI Insights section */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 md:p-8 shadow-premium space-y-6">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-8 shadow-premium space-y-6">
             <h3 className="text-lg md:text-[22px] font-black text-[#1E293B] dark:text-slate-100 tracking-tight flex items-center gap-2.5">
               <Brain className="h-6 w-6 text-primary-brand animate-pulse" /> 
               <span>Personalized Gemini AI Lifestyle Insights</span>
@@ -959,7 +959,7 @@ function Dashboard() {
                   <div className="h-8.5 w-8.5 rounded-xl bg-primary-brand/10 dark:bg-primary-brand/15 flex items-center justify-center text-primary-brand shrink-0">
                     <TrendingUp className="h-4.5 w-4.5" />
                   </div>
-                  <p className="text-slate-700 dark:text-slate-350 text-xs md:text-sm leading-relaxed font-semibold">
+                  <p className="text-slate-700 dark:text-slate-200 text-xs md:text-sm leading-relaxed font-semibold">
                     {insight}
                   </p>
                 </div>
@@ -972,14 +972,14 @@ function Dashboard() {
           </div>
 
           {/* Row: AI Product Recommendations Preview */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-850/40 rounded-[20px] p-6 md:p-8 shadow-premium space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-850/30 pb-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-8 shadow-premium space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800/60 pb-4">
               <div>
                 <h3 className="text-lg md:text-[22px] font-black text-[#1E293B] dark:text-slate-100 tracking-tight flex items-center gap-2.5">
                   <ShoppingBag className="h-6 w-6 text-primary-brand animate-pulse" /> 
                   <span>Tailored Productivity Items For You</span>
                 </h3>
-                <p className="text-slate-550 dark:text-slate-450 text-xs mt-1 font-medium">
+                <p className="text-slate-500 dark:text-slate-400 text-xs mt-1 font-medium">
                   Personalized product suggestions generated by Gemini AI matching your screen time and study trends.
                 </p>
               </div>
@@ -1012,12 +1012,12 @@ function Dashboard() {
                         </span>
                       </div>
                       <h4 className="text-xs md:text-sm font-black text-[#1E293B] dark:text-white line-clamp-1">{item.name}</h4>
-                      <p className="text-[11px] md:text-xs text-[#64748B] dark:text-slate-405 mt-2 line-clamp-2 leading-relaxed">
+                      <p className="text-[11px] md:text-xs text-[#64748B] dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">
                         {item.reason}
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-slate-100 dark:border-slate-850/40">
+                    <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-slate-100 dark:border-slate-800/80">
                       <span className="text-xs md:text-sm font-black text-[#1E293B] dark:text-white">{item.estimated_price}</span>
                       <a 
                         href={item.amazon_search}

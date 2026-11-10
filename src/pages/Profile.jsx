@@ -290,7 +290,7 @@ function Profile() {
               </div>
               
               <div className="space-y-1">
-                <h3 className="font-extrabold text-xl text-slate-850 dark:text-white leading-none">{currentUser?.name}</h3>
+                <h3 className="font-extrabold text-xl text-slate-900 dark:text-white leading-none">{currentUser?.name}</h3>
                 <span className="text-xs text-slate-500 dark:text-slate-400 flex items-center justify-center gap-1.5 font-medium pt-1">
                   <Mail className="h-3.5 w-3.5 text-indigo-500" /> {currentUser?.email}
                 </span>
@@ -317,7 +317,7 @@ function Profile() {
 
               {/* Presets Selection */}
               <div className="w-full pt-4 border-t border-slate-100 dark:border-slate-800/40 space-y-2.5">
-                <h5 className="text-[11px] font-bold text-slate-450 dark:text-slate-400 uppercase tracking-wider text-left">Or choose a preset avatar</h5>
+                <h5 className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-left">Or choose a preset avatar</h5>
                 <div className="grid grid-cols-6 gap-2">
                   {presetAvatars.map((url, idx) => (
                     <button
@@ -344,11 +344,11 @@ function Profile() {
               
               <div className="space-y-4 text-left">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-semibold text-slate-650 dark:text-slate-400">Current Plan:</span>
+                  <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Current Plan:</span>
                   <span className={`text-xs font-black px-2.5 py-0.5 rounded-full ${
                     currentUser?.plan === 'premium' 
                       ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20' 
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-350'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200'
                   }`}>
                     {currentUser?.plan === 'premium' ? 'Premium ✨' : 'Free Plan'}
                   </span>
@@ -356,7 +356,7 @@ function Profile() {
 
                 {currentUser?.plan !== 'premium' ? (
                   <div className="space-y-3.5">
-                    <div className="flex justify-between items-center text-sm text-slate-650 dark:text-slate-400">
+                    <div className="flex justify-between items-center text-sm text-slate-600 dark:text-slate-300">
                       <span className="font-semibold">Daily solves used:</span>
                       <strong className="text-slate-900 dark:text-slate-200 font-bold">
                         {currentUser?.camera_solver_daily_count || 0}/3
@@ -375,7 +375,7 @@ function Profile() {
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <div className="flex justify-between items-center text-sm text-slate-650 dark:text-slate-400">
+                    <div className="flex justify-between items-center text-sm text-slate-600 dark:text-slate-300">
                       <span className="font-semibold">Daily solves:</span>
                       <strong className="text-emerald-500 font-black">Unlimited</strong>
                     </div>
@@ -394,23 +394,23 @@ function Profile() {
               </h4>
               
               <div className="space-y-3.5">
-                <div className="flex justify-between items-center text-sm text-slate-650 dark:text-slate-400">
+                <div className="flex justify-between items-center text-sm text-slate-600 dark:text-slate-300">
                   <span>Total Daily Entries Logged:</span>
                   <strong className="text-slate-900 dark:text-slate-200 font-bold">{totalEntries}</strong>
                 </div>
-                <div className="flex justify-between items-center text-sm text-slate-650 dark:text-slate-400">
+                <div className="flex justify-between items-center text-sm text-slate-600 dark:text-slate-300">
                   <span>Average Sleep Duration:</span>
                   <strong className="text-slate-900 dark:text-slate-200 font-bold">{avgSleep} hrs</strong>
                 </div>
-                <div className="flex justify-between items-center text-sm text-slate-650 dark:text-slate-400">
+                <div className="flex justify-between items-center text-sm text-slate-600 dark:text-slate-300">
                   <span>Average Study Hours:</span>
                   <strong className="text-slate-900 dark:text-slate-200 font-bold">{avgStudy} hrs</strong>
                 </div>
-                <div className="flex justify-between items-center text-sm text-slate-650 dark:text-slate-400">
+                <div className="flex justify-between items-center text-sm text-slate-600 dark:text-slate-300">
                   <span>Average Water Hydration:</span>
                   <strong className="text-slate-900 dark:text-slate-200 font-bold">{avgWater}L</strong>
                 </div>
-                <div className="flex justify-between items-center text-sm text-slate-650 dark:text-slate-400">
+                <div className="flex justify-between items-center text-sm text-slate-600 dark:text-slate-300">
                   <span>Pomodoro Sessions Completed:</span>
                   <strong className="text-slate-900 dark:text-slate-200 font-bold">{totalSessions} ({totalFocusMins} m)</strong>
                 </div>
@@ -452,7 +452,7 @@ function Profile() {
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-450 dark:text-slate-500 mt-1 leading-relaxed">{badge.desc}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">{badge.desc}</p>
                   </div>
                 </div>
               ))}

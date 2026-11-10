@@ -210,13 +210,13 @@ function QuizGenerator() {
                       const isSelected = selectedAnswer === opt;
                       const isCorrectAnswer = opt.trim().toLowerCase() === currentQuestion.correct_answer.trim().toLowerCase();
                       
-                      let btnStyle = "border-slate-200 dark:border-slate-800 hover:border-slate-350 dark:hover:border-slate-700 bg-slate-50/50 dark:bg-slate-950/20";
+                      let btnStyle = "border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 bg-slate-50/50 dark:bg-slate-950/20";
                       
                       if (submittedAnswer) {
                         if (isCorrectAnswer) {
                           btnStyle = "bg-emerald-500/10 border-emerald-500 text-emerald-600 dark:text-emerald-400 font-bold";
                         } else if (isSelected) {
-                          btnStyle = "bg-rose-500/10 border-rose-500 text-rose-600 dark:text-rose-450 font-bold";
+                          btnStyle = "bg-rose-500/10 border-rose-500 text-rose-600 dark:text-rose-300 font-bold";
                         } else {
                           btnStyle = "opacity-50 border-slate-200 dark:border-slate-800";
                         }
@@ -266,9 +266,9 @@ function QuizGenerator() {
 
               {/* Validation Response & Explanation */}
               {submittedAnswer && (
-                <div className="p-4 bg-indigo-50/30 dark:bg-slate-950/50 rounded-xl border border-indigo-200/20 dark:border-slate-850 animate-in fade-in duration-300">
+                <div className="p-4 bg-indigo-50/30 dark:bg-slate-950/50 rounded-xl border border-indigo-200/20 dark:border-slate-800 animate-in fade-in duration-300">
                   <h5 className="text-[10px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">Explanation</h5>
-                  <p className="text-xs text-slate-600 dark:text-slate-350 leading-relaxed font-semibold">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-semibold">
                     {currentQuestion.explanation}
                   </p>
                 </div>
@@ -304,7 +304,7 @@ function QuizGenerator() {
               
               {/* Confetti styling and Trophy */}
               <div className="relative">
-                <div className="h-20 w-20 bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-850 rounded-full flex items-center justify-center">
+                <div className="h-20 w-20 bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-800 rounded-full flex items-center justify-center">
                   <Trophy className="h-10 w-10 text-amber-500 animate-bounce" />
                 </div>
                 <Award className="h-6 w-6 text-indigo-500 absolute -top-1 -right-1" />
@@ -331,7 +331,7 @@ function QuizGenerator() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setQuiz(null)}
-                  className="px-6 py-2.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-850 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-350 text-xs md:text-sm font-bold rounded-xl cursor-pointer"
+                  className="px-6 py-2.5 bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 text-xs md:text-sm font-bold rounded-xl cursor-pointer"
                 >
                   Create New Quiz
                 </button>
@@ -360,7 +360,7 @@ function QuizGenerator() {
                       className={`py-2 text-[10px] font-bold uppercase rounded-lg cursor-pointer tracking-wider ${
                         sourceType === src
                           ? 'bg-white dark:bg-slate-900 shadow-sm text-indigo-600 dark:text-indigo-400 font-extrabold'
-                          : 'text-slate-450 hover:text-slate-650 dark:text-slate-500'
+                          : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'
                       }`}
                     >
                       {src === 'note' ? 'Study Note' : src === 'text' ? 'Paste Text' : 'Topic Input'}
@@ -449,7 +449,7 @@ function QuizGenerator() {
                 <button
                   type="submit"
                   disabled={isGenerating || (sourceType === 'note' && notes.length === 0)}
-                  className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-850 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/15"
+                  className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-800 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/15"
                 >
                   {isGenerating ? (
                     <>
@@ -492,7 +492,7 @@ function QuizGenerator() {
                     className="p-3 bg-slate-50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/60 rounded-xl flex items-center justify-between"
                   >
                     <div className="overflow-hidden mr-2">
-                      <h4 className="text-[11px] font-bold text-slate-800 dark:text-slate-250 truncate">{att.quiz_title}</h4>
+                      <h4 className="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate">{att.quiz_title}</h4>
                       <span className="text-[9px] text-slate-400 block mt-0.5">{att.completed_at}</span>
                     </div>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-lg shrink-0 ${

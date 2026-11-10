@@ -104,7 +104,7 @@ function Sidebar({ user, logout, theme, toggleTheme, sidebarOpen }) {
         
         {/* Logo and App Title */}
         <div className="h-16 flex items-center px-6 gap-3 border-b border-white/5 shrink-0">
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-[#8B5CF6] to-[#EC4899] flex items-center justify-center text-white shadow-md shadow-purple-550/20">
+          <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-[#8B5CF6] to-[#EC4899] flex items-center justify-center text-white shadow-md shadow-purple-500/20">
             <GraduationCap className="h-5 w-5" />
           </div>
           <span className="font-extrabold text-[17px] tracking-tight bg-gradient-to-r from-white to-[#E5E7EB] bg-clip-text text-transparent">
@@ -142,7 +142,7 @@ function Sidebar({ user, logout, theme, toggleTheme, sidebarOpen }) {
                     </span>
                   )}
                 </h4>
-                <p className="text-[14px] truncate text-slate-350 opacity-70 font-medium leading-none">{user.email}</p>
+                <p className="text-[14px] truncate text-slate-300 opacity-80 font-medium leading-none">{user.email}</p>
               </div>
             </div>
             {/* Three-dot menu */}
@@ -196,7 +196,7 @@ function Sidebar({ user, logout, theme, toggleTheme, sidebarOpen }) {
       <div className="p-4 border-t border-white/5 bg-white/5 lg:rounded-b-[28px] shrink-0">
         
         {/* Toggle Switch design ☀️ Light Theme ◉──── */}
-        <div className="flex items-center justify-between px-3.5 py-3 mb-2.5 rounded-xl text-slate-350 hover:text-white transition-all">
+        <div className="flex items-center justify-between px-3.5 py-3 mb-2.5 rounded-xl text-slate-300 hover:text-white transition-all">
           <span className="flex items-center gap-[14px] text-[15px] font-medium">
             {theme === 'dark' ? <Moon className="h-[21px] w-[21px] text-[#8B5CF6]" strokeWidth={1.8} /> : <Sun className="h-[21px] w-[21px] text-amber-400" strokeWidth={1.8} />}
             <span>{theme === 'dark' ? 'Dark Theme' : 'Light Theme'}</span>

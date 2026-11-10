@@ -195,7 +195,7 @@ function SmartRevision() {
                     </div>
                   ) : (
                     // Back side: Detailed content
-                    <div className="w-full text-left font-semibold text-slate-350 text-xs md:text-sm leading-relaxed whitespace-pre-wrap max-w-full">
+                    <div className="w-full text-left font-semibold text-slate-200 text-xs md:text-sm leading-relaxed whitespace-pre-wrap max-w-full">
                       {contentLoading ? (
                         <div className="flex items-center justify-center py-6">
                           <Loader2 className="h-6 w-6 text-indigo-500 animate-spin" />
@@ -213,7 +213,7 @@ function SmartRevision() {
                   {/* Flip button */}
                   <button
                     onClick={() => setIsFlipped(!isFlipped)}
-                    className="px-4 py-2 bg-slate-900 hover:bg-slate-850 text-slate-300 text-xs font-bold rounded-xl border border-slate-800 flex items-center gap-1.5 cursor-pointer"
+                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold rounded-xl border border-slate-800 flex items-center gap-1.5 cursor-pointer"
                   >
                     <RotateCw className="h-4 w-4" />
                     <span>{isFlipped ? 'Show Front' : 'Flip Card'}</span>
@@ -270,7 +270,7 @@ function SmartRevision() {
                   <div key={boxNum} className="space-y-1 text-xs">
                     <div className="flex justify-between">
                       <span className="font-semibold text-slate-600 dark:text-slate-400">{activeBoxName(Number(boxNum))}</span>
-                      <span className="font-bold text-slate-700 dark:text-slate-350">{count} items</span>
+                      <span className="font-bold text-slate-700 dark:text-slate-200">{count} items</span>
                     </div>
                     <div className="w-full bg-slate-50 dark:bg-slate-950 rounded-full h-1.5">
                       <div 
@@ -311,7 +311,7 @@ function SmartRevision() {
                     className="p-3 bg-slate-50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/60 rounded-xl flex items-center justify-between text-xs"
                   >
                     <div className="overflow-hidden mr-2">
-                      <h4 className="font-bold text-slate-800 dark:text-slate-250 truncate">{item.title}</h4>
+                      <h4 className="font-bold text-slate-800 dark:text-slate-200 truncate">{item.title}</h4>
                       <span className="text-[9px] text-slate-400 block mt-0.5">Due: {item.next_revision_date}</span>
                     </div>
                     <ChevronRight className="h-3.5 w-3.5 shrink-0 text-slate-400" />

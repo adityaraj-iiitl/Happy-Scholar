@@ -203,7 +203,7 @@ function Planner() {
             <button
               onClick={handleGenerate}
               disabled={isGenerating || subjects.length === 0 || !examDate}
-              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-850 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/15"
+              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-800 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/15"
             >
               {isGenerating ? <Loader2 className="h-4.5 w-4.5 animate-spin" /> : <CalendarIcon className="h-4.5 w-4.5" />}
               <span>Generate study schedule</span>
@@ -248,7 +248,7 @@ function Planner() {
                     <AlertCircle className="h-4.5 w-4.5 text-rose-500 shrink-0 mt-0.5" />
                     <div>
                       <h5 className="text-xs font-bold text-rose-700 dark:text-rose-400">Missed studies detected</h5>
-                      <p className="text-[10px] text-rose-600/90 dark:text-rose-450 mt-0.5 leading-relaxed">
+                      <p className="text-[10px] text-rose-600/90 dark:text-rose-300 mt-0.5 leading-relaxed">
                         You have {missedTasks} uncompleted study tasks in the past. Re-plan to distribute them.
                       </p>
                     </div>
@@ -282,7 +282,7 @@ function Planner() {
               </div>
             ) : sortedDates.length === 0 ? (
               <div className="text-center py-12 space-y-4">
-                <div className="h-12 w-12 bg-slate-50 dark:bg-slate-950 rounded-full flex items-center justify-center mx-auto border border-slate-100 dark:border-slate-850">
+                <div className="h-12 w-12 bg-slate-50 dark:bg-slate-950 rounded-full flex items-center justify-center mx-auto border border-slate-100 dark:border-slate-800">
                   <CheckSquare className="h-6 w-6 text-slate-400" />
                 </div>
                 <div>
@@ -331,12 +331,12 @@ function Planner() {
                                 {task.completed ? (
                                   <CheckCircle className="h-5.5 w-5.5 text-emerald-500" />
                                 ) : (
-                                  <div className={`h-5 w-5 rounded border-2 ${task.missed ? 'border-rose-400' : 'border-slate-350 dark:border-slate-700'}`}></div>
+                                  <div className={`h-5 w-5 rounded border-2 ${task.missed ? 'border-rose-400' : 'border-slate-300 dark:border-slate-700'}`}></div>
                                 )}
                               </button>
 
                               <div className="overflow-hidden">
-                                <h4 className={`text-xs md:text-sm font-bold truncate ${task.completed ? 'line-through text-slate-400 dark:text-slate-550' : 'text-slate-800 dark:text-slate-200'}`}>
+                                <h4 className={`text-xs md:text-sm font-bold truncate ${task.completed ? 'line-through text-slate-400 dark:text-slate-400' : 'text-slate-800 dark:text-slate-200'}`}>
                                   {task.title}
                                 </h4>
                                 <span className={`inline-block px-2 py-0.5 text-[9px] font-bold uppercase rounded-md tracking-wider mt-1 ${

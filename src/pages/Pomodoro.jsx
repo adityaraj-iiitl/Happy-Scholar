@@ -166,7 +166,7 @@ function Pomodoro() {
           {/* Custom Settings Gear */}
           <button 
             onClick={() => setCustomMode(!customMode)}
-            className="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-850 cursor-pointer border border-slate-200/30 dark:border-slate-800/30"
+            className="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer border border-slate-200/30 dark:border-slate-800/30"
           >
             <Settings className="h-5 w-5" />
           </button>
@@ -182,7 +182,7 @@ function Pomodoro() {
                     type="number"
                     value={workMins}
                     onChange={(e) => setWorkMins(Math.max(1, Number(e.target.value)))}
-                    className="w-full px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-250 dark:border-slate-800 rounded-lg"
+                    className="w-full px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-lg"
                   />
                 </div>
                 <div className="space-y-1">
@@ -191,7 +191,7 @@ function Pomodoro() {
                     type="number"
                     value={breakMins}
                     onChange={(e) => setBreakMins(Math.max(1, Number(e.target.value)))}
-                    className="w-full px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-250 dark:border-slate-800 rounded-lg"
+                    className="w-full px-3 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-lg"
                   />
                 </div>
               </div>
@@ -207,8 +207,8 @@ function Pomodoro() {
                 onClick={() => setMode(m)}
                 className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all hover:scale-[1.02] cursor-pointer ${
                   mode === m
-                    ? 'bg-white dark:bg-slate-900 shadow-sm text-slate-850 dark:text-slate-100 font-extrabold'
-                    : 'text-slate-555 hover:text-slate-700 dark:text-slate-500'
+                    ? 'bg-white dark:bg-slate-900 shadow-sm text-slate-900 dark:text-slate-100 font-extrabold'
+                    : 'text-slate-600 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
                 }`}
               >
                 {MODES[m].label}
@@ -246,7 +246,7 @@ function Pomodoro() {
               <span className="text-4xl md:text-5xl font-extrabold text-slate-950 dark:text-white tracking-tight tabular-nums">
                 {formatTime(secondsLeft)}
               </span>
-              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">
+              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-widest mt-1">
                 {isActive ? 'Keep focusing' : 'Paused'}
               </span>
             </div>
@@ -258,7 +258,7 @@ function Pomodoro() {
             <button
               onClick={handleReset}
               title="Reset Timer"
-              className="p-3 bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-850 text-slate-500 dark:text-slate-400 rounded-xl transition-all hover:scale-[1.05] active:scale-95 cursor-pointer border border-slate-200 dark:border-slate-800"
+              className="p-3 bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl transition-all hover:scale-[1.05] active:scale-95 cursor-pointer border border-slate-200 dark:border-slate-800"
             >
               <RotateCcw className="h-5.5 w-5.5" />
             </button>

@@ -252,7 +252,7 @@ function Attendance() {
                         <span className={`text-2xl font-extrabold ${isBelowThreshold ? 'text-amber-500' : 'text-emerald-500'}`}>
                           {item.percentage}%
                         </span>
-                        <span className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider mt-0.5">Attendance</span>
+                        <span className="text-[10px] text-slate-400 dark:text-slate-400 font-semibold uppercase tracking-wider mt-0.5">Attendance</span>
                       </div>
 
                       {/* Log Action Buttons */}
@@ -260,14 +260,14 @@ function Attendance() {
                         <button
                           onClick={() => handleQuickAction(item.id, 'attend')}
                           title="Logged Attendance"
-                          className="px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-500 hover:text-white border border-emerald-500/20 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] active:scale-98 cursor-pointer"
+                          className="px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500 text-emerald-700 dark:text-emerald-300 hover:text-white border border-emerald-500/30 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] active:scale-98 cursor-pointer"
                         >
                           Attended
                         </button>
                         <button
                           onClick={() => handleQuickAction(item.id, 'miss')}
                           title="Logged Miss"
-                          className="px-4 py-2 bg-rose-500/10 hover:bg-rose-500 text-rose-500 hover:text-white border border-rose-500/20 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] active:scale-98 cursor-pointer"
+                          className="px-4 py-2 bg-rose-500/10 hover:bg-rose-500 text-rose-700 dark:text-rose-300 hover:text-white border border-rose-500/30 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] active:scale-98 cursor-pointer"
                         >
                           Missed
                         </button>

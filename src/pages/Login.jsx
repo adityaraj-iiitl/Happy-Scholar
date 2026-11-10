@@ -173,7 +173,7 @@ function Login({ setUser }) {
           {/* Elegant Divider */}
           <div className="relative flex py-5 items-center">
             <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-            <span className="flex-shrink mx-4 text-slate-450 dark:text-slate-500 text-xs uppercase tracking-wider font-semibold">or</span>
+            <span className="flex-shrink mx-4 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-semibold">or</span>
             <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
           </div>
 

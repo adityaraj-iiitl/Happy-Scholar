@@ -319,9 +319,9 @@ function HabitsTracker() {
                       {goal.completed ? (
                         <CheckCircle className="h-4.5 w-4.5 text-emerald-500 shrink-0" />
                       ) : (
-                        <div className="h-4.5 w-4.5 rounded border border-slate-350 dark:border-slate-700 shrink-0"></div>
+                        <div className="h-4.5 w-4.5 rounded border border-slate-300 dark:border-slate-700 shrink-0"></div>
                       )}
-                      <span className={`font-semibold truncate ${goal.completed ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-250'}`}>
+                      <span className={`font-semibold truncate ${goal.completed ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-200'}`}>
                         {goal.title}
                       </span>
                     </div>
@@ -354,9 +354,9 @@ function HabitsTracker() {
                         {goal.completed ? (
                           <CheckCircle className="h-4.5 w-4.5 text-emerald-500 shrink-0" />
                         ) : (
-                          <div className="h-4.5 w-4.5 rounded border border-slate-350 dark:border-slate-700 shrink-0"></div>
+                          <div className="h-4.5 w-4.5 rounded border border-slate-300 dark:border-slate-700 shrink-0"></div>
                         )}
-                        <span className={`font-semibold truncate ${goal.completed ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-250'}`}>
+                        <span className={`font-semibold truncate ${goal.completed ? 'line-through text-slate-400' : 'text-slate-700 dark:text-slate-200'}`}>
                           {goal.title}
                         </span>
                       </div>
@@ -375,7 +375,7 @@ function HabitsTracker() {
                           style={{ width: `${(goal.current / goal.target) * 100}%` }}
                         ></div>
                       </div>
-                      <div className="flex justify-end text-[9px] font-bold text-slate-450 uppercase">
+                      <div className="flex justify-end text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase">
                         {goal.current} / {goal.target} Completed
                       </div>
                     </div>

@@ -310,7 +310,7 @@ function NotesGenerator() {
               <button
                 type="submit"
                 disabled={isGenerating || !topic.trim()}
-                className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-850 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/15"
+                className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-800 dark:disabled:text-slate-500 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-indigo-600/15"
               >
                 {isGenerating ? <Loader2 className="h-4.5 w-4.5 animate-spin" /> : <Plus className="h-4.5 w-4.5" />}
                 <span>Generate Notes</span>
@@ -345,7 +345,7 @@ function NotesGenerator() {
               <button
                 type="submit"
                 disabled={isUploading || !uploadFile}
-                className="w-full py-2.5 bg-slate-800 hover:bg-slate-750 disabled:bg-slate-300 dark:disabled:bg-slate-850 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer border border-slate-700/60"
+                className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 dark:hover:bg-slate-700 disabled:bg-slate-300 dark:disabled:bg-slate-800 dark:disabled:text-slate-500 text-white font-bold rounded-xl text-sm transition-all hover:scale-[1.01] active:scale-99 flex items-center justify-center gap-2 cursor-pointer border border-slate-700/60"
               >
                 {isUploading ? <Loader2 className="h-4.5 w-4.5 animate-spin" /> : <Upload className="h-4.5 w-4.5" />}
                 <span>Extract notes from file</span>
@@ -377,7 +377,7 @@ function NotesGenerator() {
                     className={`w-full p-3.5 rounded-xl border flex items-center justify-between text-left cursor-pointer transition-all ${
                       selectedNote && selectedNote.id === note.id
                         ? 'bg-indigo-50/40 dark:bg-indigo-950/20 border-indigo-500'
-                        : 'bg-slate-50/50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800 hover:border-slate-350 dark:hover:border-slate-700'
+                        : 'bg-slate-50/50 dark:bg-slate-950/30 border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700'
                     }`}
                   >
                     <div className="overflow-hidden mr-2">
@@ -423,7 +423,7 @@ function NotesGenerator() {
                   </button>
                   <button
                     onClick={() => handleExportPDF(selectedNote)}
-                    className="p-2 bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-850 border border-slate-250 dark:border-slate-800 text-slate-500 dark:text-slate-400 rounded-xl cursor-pointer"
+                    className="p-2 bg-slate-50 hover:bg-slate-100 dark:bg-slate-950 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 rounded-xl cursor-pointer"
                     title="Print / Save PDF"
                   >
                     <Download className="h-4 w-4" />
@@ -445,7 +445,7 @@ function NotesGenerator() {
                   value={editSummary}
                   onChange={(e) => setEditSummary(e.target.value)}
                   rows="2"
-                  className="w-full text-xs text-slate-600 dark:text-slate-350 bg-transparent border border-transparent focus:border-indigo-500/40 rounded p-1 focus:outline-none resize-none font-medium leading-relaxed"
+                  className="w-full text-xs text-slate-600 dark:text-slate-200 bg-transparent border border-transparent focus:border-indigo-500/40 rounded p-1 focus:outline-none resize-none font-medium leading-relaxed"
                   placeholder="Summarize key ideas..."
                 />
               </div>
@@ -467,7 +467,7 @@ function NotesGenerator() {
                 <button
                   onClick={handleSaveNote}
                   disabled={isSaving}
-                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-350 text-white font-bold rounded-xl text-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-indigo-600/15 flex items-center gap-2"
+                  className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-800 text-white font-bold rounded-xl text-sm transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-lg shadow-indigo-600/15 flex items-center gap-2"
                 >
                   {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4.5 w-4.5" />}
                   <span>Save Changes</span>
@@ -477,7 +477,7 @@ function NotesGenerator() {
             </div>
           ) : (
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-12 text-center shadow-premium flex flex-col items-center justify-center space-y-4">
-              <div className="h-16 w-16 bg-slate-50 dark:bg-slate-950 rounded-full flex items-center justify-center border border-slate-100 dark:border-slate-850">
+              <div className="h-16 w-16 bg-slate-50 dark:bg-slate-950 rounded-full flex items-center justify-center border border-slate-100 dark:border-slate-800">
                 <FileText className="h-8 w-8 text-slate-400" />
               </div>
               <div>

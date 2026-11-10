@@ -121,9 +121,9 @@ function Assignments() {
 
   const getPriorityBadgeColor = (p) => {
     switch (p) {
-      case 'High': return 'bg-rose-500/10 text-rose-500 border-rose-500/20';
-      case 'Medium': return 'bg-amber-500/10 text-amber-500 border-amber-500/20';
-      default: return 'bg-blue-500/10 text-blue-500 border-blue-500/20';
+      case 'High': return 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border-rose-500/25';
+      case 'Medium': return 'bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/25';
+      default: return 'bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/25';
     }
   };
 
@@ -274,7 +274,7 @@ function Assignments() {
                     key={item.id}
                     className={`bg-white dark:bg-slate-900 border rounded-2xl p-5 flex items-center justify-between gap-4 shadow-premium hover:-translate-y-0.5 hover:shadow-premium-hover transition-premium ${
                       item.completed 
-                        ? 'border-slate-100 dark:border-slate-850 opacity-70' 
+                        ? 'border-slate-100 dark:border-slate-800 opacity-70' 
                         : overdue 
                         ? 'border-rose-300 dark:border-rose-900/40 bg-rose-500/2' 
                         : 'border-slate-200/80 dark:border-slate-800/80'
@@ -288,8 +288,8 @@ function Assignments() {
                           item.completed
                             ? 'bg-indigo-500 border-indigo-500 text-white'
                             : overdue
-                            ? 'border-rose-450 dark:border-rose-700 hover:bg-rose-500/5'
-                            : 'border-slate-350 dark:border-slate-700 hover:bg-slate-800/50'
+                            ? 'border-rose-400 dark:border-rose-700 hover:bg-rose-500/5'
+                            : 'border-slate-300 dark:border-slate-700 hover:bg-slate-800/50'
                         }`}
                       >
                         {item.completed && <CheckCircle2 className="h-4.5 w-4.5" />}

@@ -99,14 +99,14 @@ function Chatbot() {
           const codeString = codeLines.join('\n');
           codeLines = [];
           return (
-            <pre key={idx} className="bg-slate-950 text-slate-100 p-4 rounded-xl font-mono text-xs overflow-x-auto border border-slate-850/80 my-3 relative group">
+            <pre key={idx} className="bg-slate-950 text-slate-100 p-4 rounded-xl font-mono text-xs overflow-x-auto border border-slate-800 my-3 relative group">
               <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button 
                   onClick={() => {
                     navigator.clipboard.writeText(codeString);
                     alert("Code copied!");
                   }}
-                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded text-[10px] font-semibold cursor-pointer border border-slate-750"
+                  className="bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-1 rounded text-[10px] font-semibold cursor-pointer border border-slate-700"
                 >
                   Copy
                 </button>
@@ -187,7 +187,7 @@ function Chatbot() {
       <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-3xl shadow-premium flex flex-col h-[600px] overflow-hidden">
         
         {/* PDF Context bar */}
-        <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200/60 dark:border-slate-850 flex items-center justify-between gap-4">
+        <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200/60 dark:border-slate-800 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-indigo-50/60 dark:bg-indigo-950/40 rounded-xl">
               <Bot className="h-5 w-5 text-indigo-500" />
@@ -223,7 +223,7 @@ function Chatbot() {
                 <button
                   type="button"
                   disabled={isUploadingPdf}
-                  className="px-3.5 py-2 bg-slate-100 hover:bg-slate-150 dark:bg-slate-850 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-350 text-xs font-bold rounded-xl flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl flex items-center gap-1.5 cursor-pointer"
                 >
                   {isUploadingPdf ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Paperclip className="h-3.5 w-3.5" />}
                   <span>Attach PDF Context</span>
@@ -253,7 +253,7 @@ function Chatbot() {
                 <div className={`rounded-2xl px-4 py-3 shadow-premium font-medium border ${
                   msg.sender === 'user'
                     ? 'bg-indigo-600 border-indigo-500 text-white rounded-tr-none'
-                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-850 text-slate-800 dark:text-slate-200 rounded-tl-none'
+                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-none'
                 }`}>
                   {renderMessageContent(msg.text)}
                 </div>
@@ -267,7 +267,7 @@ function Chatbot() {
                 <div className="h-8 w-8 rounded-full flex items-center justify-center bg-slate-800 border border-slate-700 text-indigo-400 shrink-0">
                   <Bot className="h-4.5 w-4.5" />
                 </div>
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-2 shadow-sm">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-2 shadow-sm">
                   <span className="flex gap-1 shrink-0">
                     <span className="h-2.5 w-2.5 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
                     <span className="h-2.5 w-2.5 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
@@ -282,19 +282,19 @@ function Chatbot() {
         </div>
 
         {/* Message Input Panel */}
-        <form onSubmit={handleSendMessage} className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200/60 dark:border-slate-850 flex gap-2">
+        <form onSubmit={handleSendMessage} className="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200/60 dark:border-slate-800 flex gap-2">
           <input
             type="text"
             placeholder={pdfContext ? `Ask about "${pdfContext.filename}"...` : "Ask a question about database, coding, math..."}
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             disabled={isLoading}
-            className="flex-1 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-850 rounded-xl text-xs md:text-sm text-slate-950 dark:text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 shadow-sm"
+            className="flex-1 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs md:text-sm text-slate-950 dark:text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 shadow-sm"
           />
           <button
             type="submit"
             disabled={isLoading || !inputMessage.trim()}
-            className="p-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 text-white rounded-xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-md shadow-indigo-500/15"
+            className="p-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-800 text-white rounded-xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-md shadow-indigo-500/15"
           >
             <Send className="h-4.5 w-4.5" />
           </button>

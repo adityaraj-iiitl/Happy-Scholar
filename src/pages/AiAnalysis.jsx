@@ -151,7 +151,7 @@ function AiAnalysis() {
                 <Utensils className="h-5 w-5 text-indigo-500" /> Student meal suggester
               </h3>
               
-              <p className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed mb-4">
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
                 Gemini recommended student-friendly, affordable Indian vegetarian meals based on your wellness state.
               </p>
 
