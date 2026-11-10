@@ -143,7 +143,7 @@ function Chatbot() {
 
       // Render bullet list
       if (line.trim().startsWith('-') || line.trim().startsWith('*')) {
-        return <li key={idx} className="ml-4 list-disc mb-1 leading-relaxed text-xs md:text-sm">{line.replace(/^[\-\*]\s+/, '').trim()}</li>;
+        return <li key={idx} className="ml-4 list-disc mb-1 leading-relaxed text-xs md:text-sm text-slate-800 dark:text-slate-100">{line.replace(/^[\-\*]\s+/, '').trim()}</li>;
       }
 
       // Regular text block
@@ -153,7 +153,7 @@ function Chatbot() {
       const parts = line.split('$');
       if (parts.length > 2) {
         return (
-          <p key={idx} className="mb-2 leading-relaxed text-xs md:text-sm">
+          <p key={idx} className="mb-2 leading-relaxed text-xs md:text-sm text-slate-800 dark:text-slate-100">
             {parts.map((part, pIdx) => {
               if (pIdx % 2 === 1) {
                 // Inside $ delimiters
@@ -165,7 +165,7 @@ function Chatbot() {
         );
       }
 
-      return <p key={idx} className="mb-2 leading-relaxed text-xs md:text-sm">{line}</p>;
+      return <p key={idx} className="mb-2 leading-relaxed text-xs md:text-sm text-slate-800 dark:text-slate-100">{line}</p>;
     });
   };
 
@@ -253,7 +253,7 @@ function Chatbot() {
                 <div className={`rounded-2xl px-4 py-3 shadow-premium font-medium border ${
                   msg.sender === 'user'
                     ? 'bg-indigo-600 border-indigo-500 text-white rounded-tr-none'
-                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 rounded-tl-none'
+                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-none'
                 }`}>
                   {renderMessageContent(msg.text)}
                 </div>
@@ -289,12 +289,12 @@ function Chatbot() {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             disabled={isLoading}
-            className="flex-1 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs md:text-sm text-slate-950 dark:text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 shadow-sm"
+            className="flex-1 px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs md:text-sm text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 shadow-sm"
           />
           <button
             type="submit"
             disabled={isLoading || !inputMessage.trim()}
-            className="p-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-300 dark:disabled:bg-slate-800 text-white rounded-xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-md shadow-indigo-500/15"
+            className="p-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 dark:disabled:text-slate-600 text-white rounded-xl flex items-center justify-center cursor-pointer transition-all hover:scale-105 active:scale-95 shadow-md shadow-indigo-500/15"
           >
             <Send className="h-4.5 w-4.5" />
           </button>

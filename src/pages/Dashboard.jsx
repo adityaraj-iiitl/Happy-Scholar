@@ -251,7 +251,7 @@ function Dashboard() {
             {notifOpen && (
               <div className="absolute right-0 mt-3 w-80 bg-white/95 dark:bg-slate-900/95 border border-slate-200/60 dark:border-slate-800/60 rounded-2xl shadow-2xl z-40 overflow-hidden backdrop-blur-md animate-in fade-in duration-200">
                 <div className="p-4 bg-slate-50/70 dark:bg-slate-950/40 border-b border-slate-200/50 dark:border-slate-800/40 flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#1E293B] dark:text-slate-200">Notifications Feed</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white">Notifications Feed</span>
                   {unreadNotifications > 0 && (
                     <button 
                       onClick={handleMarkAllRead} 
@@ -384,13 +384,13 @@ function Dashboard() {
                     <span className="absolute bottom-0 right-0 h-3.5 w-3.5 bg-emerald-500 rounded-full border-2 border-white dark:border-slate-900 animate-pulse" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-bold text-[#1E293B] dark:text-white leading-none mb-1 flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-none mb-1 flex items-center gap-2">
                       <span>{user ? user.name : 'Scholar'}</span>
                       <span className="px-2 py-0.5 rounded-full bg-primary-brand/10 border border-primary-brand/20 text-primary-brand font-black text-[9px] uppercase tracking-wider">
                         Lvl {gamification.level}
                       </span>
                     </h3>
-                    <p className="text-[11px] text-[#64748B] dark:text-slate-400 font-medium">Focused & study-ready</p>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Focused & study-ready</p>
                   </div>
                 </div>
 
@@ -403,15 +403,15 @@ function Dashboard() {
                               strokeDasharray={2 * Math.PI * 22} 
                               strokeDashoffset={2 * Math.PI * 22 * (1 - 0.85)} />
                     </svg>
-                    <span className="absolute text-[10px] font-black text-[#1E293B] dark:text-white">85%</span>
+                    <span className="absolute text-[10px] font-black text-slate-900 dark:text-white">85%</span>
                   </div>
-                  <span className="text-[8px] font-bold text-[#64748B] dark:text-slate-400 uppercase tracking-wider">Prod. Score</span>
+                  <span className="text-[8px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Prod. Score</span>
                 </div>
               </div>
 
               {/* Progress Bar */}
               <div className="space-y-2">
-                <div className="flex justify-between text-[10px] text-[#64748B] dark:text-slate-400 font-extrabold uppercase tracking-wider">
+                <div className="flex justify-between text-[10px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wider">
                   <span>XP: {gamification.current_level_xp} / {gamification.next_level_target_xp}</span>
                   <span>{Math.round((gamification.current_level_xp / gamification.next_level_target_xp) * 100)}%</span>
                 </div>
@@ -430,8 +430,8 @@ function Dashboard() {
                   className="p-3 bg-orange-500/5 dark:bg-orange-500/10 border border-orange-500/10 dark:border-orange-500/20 rounded-2xl text-center cursor-pointer transition-all duration-200 hover:scale-105 flex flex-col justify-center items-center shadow-xs"
                 >
                   <Flame className="h-5.5 w-5.5 text-orange-500 animate-flame mb-1 shrink-0" />
-                  <span className="text-[9px] text-[#64748B] dark:text-slate-500 uppercase font-extrabold tracking-widest block leading-none">Streak</span>
-                  <span className="text-xs font-black text-[#1E293B] dark:text-slate-100 mt-1">{gamification.streak} Days</span>
+                  <span className="text-[9px] text-slate-500 dark:text-slate-400 uppercase font-extrabold tracking-widest block leading-none">Streak</span>
+                  <span className="text-xs font-black text-slate-900 dark:text-white mt-1">{gamification.streak} Days</span>
                 </div>
 
                 <div 
@@ -439,8 +439,8 @@ function Dashboard() {
                   className="p-3 bg-amber-500/5 dark:bg-amber-500/10 border border-amber-500/10 dark:border-amber-500/20 rounded-2xl text-center cursor-pointer transition-all duration-200 hover:scale-105 flex flex-col justify-center items-center shadow-xs"
                 >
                   <Coins className="h-5.5 w-5.5 text-amber-500 mb-1 shrink-0" />
-                  <span className="text-[9px] text-[#64748B] dark:text-slate-500 uppercase font-extrabold tracking-widest block leading-none">Coins</span>
-                  <span className="text-xs font-black text-[#1E293B] dark:text-slate-100 mt-1">{gamification.coins}</span>
+                  <span className="text-[9px] text-slate-500 dark:text-slate-400 uppercase font-extrabold tracking-widest block leading-none">Coins</span>
+                  <span className="text-xs font-black text-slate-900 dark:text-white mt-1">{gamification.coins}</span>
                 </div>
 
                 <div 
@@ -448,15 +448,15 @@ function Dashboard() {
                   className="p-3 bg-purple-500/5 dark:bg-purple-500/10 border border-purple-500/10 dark:border-purple-500/20 rounded-2xl text-center cursor-pointer transition-all duration-200 hover:scale-105 flex flex-col justify-center items-center shadow-xs"
                 >
                   <Award className="h-5.5 w-5.5 text-purple-400 mb-1 shrink-0" />
-                  <span className="text-[9px] text-[#64748B] dark:text-slate-500 uppercase font-extrabold tracking-widest block leading-none">Badges</span>
-                  <span className="text-xs font-black text-[#1E293B] dark:text-slate-100 mt-1">{gamification.badges.length}</span>
+                  <span className="text-[9px] text-slate-500 dark:text-slate-400 uppercase font-extrabold tracking-widest block leading-none">Badges</span>
+                  <span className="text-xs font-black text-slate-900 dark:text-white mt-1">{gamification.badges.length}</span>
                 </div>
               </div>
 
               {/* Extra Stats Row (Today's Goal, Study Time) */}
-              <div className="pt-3 border-t border-slate-100 dark:border-slate-800/40 flex items-center justify-between text-[11px] font-semibold text-[#64748B] dark:text-slate-400">
-                <span>📚 Today's Goal: <strong className="text-[#1E293B] dark:text-slate-100">4 Hours</strong></span>
-                <span>⏱️ Study Time: <strong className="text-[#1E293B] dark:text-slate-100">{latestEntry ? `${latestEntry.study_hours}h` : '0h'}</strong></span>
+              <div className="pt-3 border-t border-slate-100 dark:border-slate-800/40 flex items-center justify-between text-[11px] font-semibold text-slate-500 dark:text-slate-400">
+                <span>📚 Today's Goal: <strong className="text-slate-900 dark:text-white">4 Hours</strong></span>
+                <span>⏱️ Study Time: <strong className="text-slate-900 dark:text-white">{latestEntry ? `${latestEntry.study_hours}h` : '0h'}</strong></span>
               </div>
             </div>
           ) : (
@@ -635,7 +635,7 @@ function Dashboard() {
         <>
           {/* Row: Streak Badges */}
           <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium">
-            <h3 className="text-base md:text-lg font-black text-[#1E293B] dark:text-slate-100 tracking-tight mb-5 flex items-center gap-2">
+            <h3 className="text-base md:text-lg font-black text-slate-900 dark:text-white tracking-tight mb-5 flex items-center gap-2">
               <Flame className="h-5.5 w-5.5 text-orange-500 animate-flame" /> 
               <span>Active Wellness Habit Streaks</span>
             </h3>
@@ -645,8 +645,8 @@ function Dashboard() {
                   <Moon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h5 className="text-[10px] text-[#64748B] dark:text-slate-500 font-extrabold uppercase tracking-wide leading-none">Sleep Streak</h5>
-                  <p className="text-base font-black text-[#1E293B] dark:text-white mt-1.5">{streaks.sleep} days</p>
+                  <h5 className="text-[10px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wide leading-none">Sleep Streak</h5>
+                  <p className="text-base font-black text-slate-900 dark:text-white mt-1.5">{streaks.sleep} days</p>
                 </div>
               </div>
 
@@ -655,8 +655,8 @@ function Dashboard() {
                   <Droplet className="h-5 w-5" />
                 </div>
                 <div>
-                  <h5 className="text-[10px] text-[#64748B] dark:text-slate-500 font-extrabold uppercase tracking-wide leading-none">Water Streak</h5>
-                  <p className="text-base font-black text-[#1E293B] dark:text-white mt-1.5">{streaks.water} days</p>
+                  <h5 className="text-[10px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wide leading-none">Water Streak</h5>
+                  <p className="text-base font-black text-slate-900 dark:text-white mt-1.5">{streaks.water} days</p>
                 </div>
               </div>
 
@@ -665,8 +665,8 @@ function Dashboard() {
                   <BookOpen className="h-5 w-5" />
                 </div>
                 <div>
-                  <h5 className="text-[10px] text-[#64748B] dark:text-slate-500 font-extrabold uppercase tracking-wide leading-none">Study Streak</h5>
-                  <p className="text-base font-black text-[#1E293B] dark:text-white mt-1.5">{streaks.study} days</p>
+                  <h5 className="text-[10px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wide leading-none">Study Streak</h5>
+                  <p className="text-base font-black text-slate-900 dark:text-white mt-1.5">{streaks.study} days</p>
                 </div>
               </div>
 
@@ -675,8 +675,8 @@ function Dashboard() {
                   <Zap className="h-5 w-5" />
                 </div>
                 <div>
-                  <h5 className="text-[10px] text-[#64748B] dark:text-slate-500 font-extrabold uppercase tracking-wide leading-none">Exercise Streak</h5>
-                  <p className="text-base font-black text-[#1E293B] dark:text-white mt-1.5">{streaks.exercise} days</p>
+                  <h5 className="text-[10px] text-slate-500 dark:text-slate-400 font-extrabold uppercase tracking-wide leading-none">Exercise Streak</h5>
+                  <p className="text-base font-black text-slate-900 dark:text-white mt-1.5">{streaks.exercise} days</p>
                 </div>
               </div>
             </div>
@@ -688,13 +688,13 @@ function Dashboard() {
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
               <div>
                 <div className="text-indigo-500 bg-indigo-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><Moon className="h-5 w-5" /></div>
-                <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-400 uppercase tracking-wide leading-none">Sleep Hours</h4>
+                <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide leading-none">Sleep Hours</h4>
               </div>
               <div className="mt-4">
-                <p className="text-2xl md:text-3xl font-black text-[#1E293B] dark:text-white leading-none">
+                <p className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-none">
                   {latestEntry ? `${latestEntry.sleep_hours}h` : 'N/A'}
                 </p>
-                <span className="text-[10px] text-[#64748B] dark:text-slate-500 mt-2 block font-medium truncate">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 block font-medium truncate">
                   {latestEntry ? `${latestEntry.sleep_bedtime} - ${latestEntry.sleep_wakeup}` : 'Log bedtime'}
                 </span>
               </div>
@@ -703,26 +703,26 @@ function Dashboard() {
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
               <div>
                 <div className="text-blue-500 bg-blue-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><Droplet className="h-5 w-5" /></div>
-                <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-500 uppercase tracking-wide leading-none">Water Intake</h4>
+                <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide leading-none">Water Intake</h4>
               </div>
               <div className="mt-4">
-                <p className="text-2xl md:text-3xl font-black text-[#1E293B] dark:text-white leading-none">
+                <p className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-none">
                   {latestEntry ? `${latestEntry.water_intake}L` : 'N/A'}
                 </p>
-                <span className="text-[10px] text-[#64748B] dark:text-slate-500 mt-2 block font-medium">Target: 2.5 Liters</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 block font-medium">Target: 2.5 Liters</span>
               </div>
             </div>
 
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between col-span-2 lg:col-span-1">
               <div>
                 <div className="text-violet-500 bg-violet-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><BookOpen className="h-5 w-5" /></div>
-                <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-500 uppercase tracking-wide leading-none">Study & Code</h4>
+                <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide leading-none">Study & Code</h4>
               </div>
               <div className="mt-4">
-                <p className="text-2xl md:text-3xl font-black text-[#1E293B] dark:text-white leading-none">
+                <p className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-none">
                   {latestEntry ? `${latestEntry.study_hours + latestEntry.coding_hours}h` : 'N/A'}
                 </p>
-                <span className="text-[10px] text-[#64748B] dark:text-slate-500 mt-2 block font-medium truncate">
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 block font-medium truncate">
                   {latestEntry ? `Study: ${latestEntry.study_hours}h | Code: ${latestEntry.coding_hours}h` : 'Log study time'}
                 </span>
               </div>
@@ -731,26 +731,26 @@ function Dashboard() {
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
               <div>
                 <div className="text-emerald-500 bg-emerald-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><Smile className="h-5 w-5" /></div>
-                <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-500 uppercase tracking-wide leading-none">Daily Mood</h4>
+                <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide leading-none">Daily Mood</h4>
               </div>
               <div className="mt-4">
-                <p className="text-2xl md:text-3xl font-black text-[#1E293B] dark:text-white leading-none">
+                <p className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-none">
                   {latestEntry ? latestEntry.mood : 'N/A'}
                 </p>
-                <span className="text-[10px] text-[#64748B] dark:text-slate-500 mt-2 block font-medium">Log daily feeling</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 block font-medium">Log daily feeling</span>
               </div>
             </div>
 
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-5 shadow-premium hover:-translate-y-1.5 hover:shadow-premium-card-hover transition-premium flex flex-col justify-between">
               <div>
                 <div className="text-rose-500 bg-rose-500/10 h-9 w-9 rounded-xl flex items-center justify-center mb-4"><Brain className="h-5 w-5" /></div>
-                <h4 className="text-xs font-bold text-[#64748B] dark:text-slate-500 uppercase tracking-wide leading-none">Stress Level</h4>
+                <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide leading-none">Stress Level</h4>
               </div>
               <div className="mt-4">
-                <p className="text-2xl md:text-3xl font-black text-[#1E293B] dark:text-white leading-none">
+                <p className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-none">
                   {latestEntry ? `${latestEntry.stress_level}/5` : 'N/A'}
                 </p>
-                <span className="text-[10px] text-[#64748B] dark:text-slate-500 mt-2 block font-medium">Keep stress low</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 block font-medium">Keep stress low</span>
               </div>
             </div>
 
@@ -761,7 +761,7 @@ function Dashboard() {
             
             {/* Sleep & Stress Trends */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
-              <h3 className="text-sm font-bold text-[#1E293B] dark:text-slate-200 mb-6 flex items-center gap-2 tracking-tight uppercase">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 tracking-tight uppercase">
                 <Moon className="h-4.5 w-4.5 text-primary-brand" /> 
                 <span>Sleep duration vs. Stress correlation</span>
               </h3>
@@ -795,7 +795,7 @@ function Dashboard() {
 
             {/* Study Hours Trend */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
-              <h3 className="text-sm font-bold text-[#1E293B] dark:text-slate-200 mb-6 flex items-center gap-2 tracking-tight uppercase">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 tracking-tight uppercase">
                 <BookOpen className="h-4.5 w-4.5 text-primary-brand" /> 
                 <span>Academic focus hours (Study vs Coding)</span>
               </h3>
@@ -823,7 +823,7 @@ function Dashboard() {
 
             {/* Water Intake History */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
-              <h3 className="text-sm font-bold text-[#1E293B] dark:text-slate-200 mb-6 flex items-center gap-2 tracking-tight uppercase">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 tracking-tight uppercase">
                 <Droplet className="h-4.5 w-4.5 text-[#3B82F6]" /> 
                 <span>Hydration patterns history</span>
               </h3>
@@ -856,7 +856,7 @@ function Dashboard() {
 
             {/* Exercise & Screen Time */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-7 shadow-premium hover:-translate-y-1 transition-premium">
-              <h3 className="text-sm font-bold text-[#1E293B] dark:text-slate-200 mb-6 flex items-center gap-2 tracking-tight uppercase">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2 tracking-tight uppercase">
                 <Clock className="h-4.5 w-4.5 text-primary-brand" /> 
                 <span>Screen time vs. active exercise</span>
               </h3>
@@ -891,7 +891,7 @@ function Dashboard() {
             <div className="lg:col-span-6 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 shadow-premium relative overflow-hidden flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-sm font-extrabold text-[#1E293B] dark:text-white uppercase tracking-wider flex items-center gap-2">
+                  <h4 className="text-sm font-extrabold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
                     <Sparkles className="h-4.5 w-4.5 text-primary-brand" /> Today's Focus suggestion
                   </h4>
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 text-[10px] uppercase font-bold tracking-wider">Active</span>
@@ -899,14 +899,14 @@ function Dashboard() {
                 
                 <div className="p-4 bg-primary-brand/5 border border-primary-brand/10 rounded-2xl space-y-2">
                   <p className="text-xs font-bold text-primary-brand">Gemini AI Tip:</p>
-                  <p className="text-xs text-[#1E293B] dark:text-slate-200 leading-relaxed font-semibold">
+                  <p className="text-xs text-slate-900 dark:text-white leading-relaxed font-semibold">
                     "Your stress levels correlate closely with sleep debt. Consider study-interval blocks of 45 mins with 10 min hydration breaks today."
                   </p>
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center justify-between text-xs text-[#64748B] dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/40 pt-4">
-                <span>⏱️ Recommended focus duration: <strong className="text-[#1E293B] dark:text-slate-100">45m</strong></span>
+              <div className="mt-6 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/40 pt-4">
+                <span>⏱️ Recommended focus duration: <strong className="text-slate-900 dark:text-white">45m</strong></span>
                 <button onClick={() => navigate('/pomodoro')} className="text-primary-brand hover:underline font-bold">Start focus session →</button>
               </div>
             </div>
@@ -914,20 +914,20 @@ function Dashboard() {
             {/* Upcoming Tasks & Quick Actions */}
             <div className="lg:col-span-6 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 shadow-premium flex flex-col justify-between">
               <div className="space-y-4">
-                <h4 className="text-sm font-extrabold text-[#1E293B] dark:text-white uppercase tracking-wider flex items-center gap-2">
+                <h4 className="text-sm font-extrabold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
                   <ClipboardCheck className="h-4.5 w-4.5 text-primary-brand" /> Today's Focus Schedule
                 </h4>
                 
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between p-3 bg-slate-50/50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/60 rounded-xl">
-                    <span className="text-xs text-[#1E293B] dark:text-slate-300 font-semibold flex items-center gap-2">
+                    <span className="text-xs text-slate-800 dark:text-slate-200 font-semibold flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-primary-brand" /> Log hydration targets
                     </span>
                     <span className="text-[10px] text-slate-400 font-bold uppercase">To-do</span>
                   </div>
 
                   <div className="flex items-center justify-between p-3 bg-slate-50/50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/60 rounded-xl">
-                    <span className="text-xs text-[#1E293B] dark:text-slate-300 font-semibold flex items-center gap-2">
+                    <span className="text-xs text-slate-800 dark:text-slate-200 font-semibold flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-secondary-brand" /> Complete Daily study plan
                     </span>
                     <span className="text-[10px] text-slate-400 font-bold uppercase">To-do</span>
@@ -935,7 +935,7 @@ function Dashboard() {
                 </div>
               </div>
 
-              <div className="mt-4 flex items-center justify-between text-xs text-[#64748B] dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/40 pt-4">
+              <div className="mt-4 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800/40 pt-4">
                 <span>⚡ Quick Actions list</span>
                 <button onClick={() => navigate('/daily-entry')} className="text-secondary-brand hover:underline font-bold">Add entry →</button>
               </div>
@@ -945,7 +945,7 @@ function Dashboard() {
 
           {/* Row: AI Insights section */}
           <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-8 shadow-premium space-y-6">
-            <h3 className="text-lg md:text-[22px] font-black text-[#1E293B] dark:text-slate-100 tracking-tight flex items-center gap-2.5">
+            <h3 className="text-lg md:text-[22px] font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2.5">
               <Brain className="h-6 w-6 text-primary-brand animate-pulse" /> 
               <span>Personalized Gemini AI Lifestyle Insights</span>
             </h3>
@@ -975,7 +975,7 @@ function Dashboard() {
           <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80 rounded-[20px] p-6 md:p-8 shadow-premium space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800/60 pb-4">
               <div>
-                <h3 className="text-lg md:text-[22px] font-black text-[#1E293B] dark:text-slate-100 tracking-tight flex items-center gap-2.5">
+                <h3 className="text-lg md:text-[22px] font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2.5">
                   <ShoppingBag className="h-6 w-6 text-primary-brand animate-pulse" /> 
                   <span>Tailored Productivity Items For You</span>
                 </h3>
@@ -1011,14 +1011,14 @@ function Dashboard() {
                           {item.confidence}
                         </span>
                       </div>
-                      <h4 className="text-xs md:text-sm font-black text-[#1E293B] dark:text-white line-clamp-1">{item.name}</h4>
-                      <p className="text-[11px] md:text-xs text-[#64748B] dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed">
+                      <h4 className="text-xs md:text-sm font-black text-slate-900 dark:text-white line-clamp-1">{item.name}</h4>
+                      <p className="text-[11px] md:text-xs text-slate-600 dark:text-slate-400 mt-2 line-clamp-2 leading-relaxed">
                         {item.reason}
                       </p>
                     </div>
 
                     <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-slate-100 dark:border-slate-800/80">
-                      <span className="text-xs md:text-sm font-black text-[#1E293B] dark:text-white">{item.estimated_price}</span>
+                      <span className="text-xs md:text-sm font-black text-slate-900 dark:text-white">{item.estimated_price}</span>
                       <a 
                         href={item.amazon_search}
                         target="_blank"
